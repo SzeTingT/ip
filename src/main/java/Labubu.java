@@ -44,7 +44,8 @@ public class Labubu {
                     break;
                 }
                 else if (tokens[0].equalsIgnoreCase("mark") || // Marking functionality
-                         tokens[0].equalsIgnoreCase("unmark")) {  // Unmarking functionality
+                         tokens[0].equalsIgnoreCase("unmark") || // Unmarking functionality
+                         tokens[0].equalsIgnoreCase("delete") ) {  // Delete functionality
                     if (tokens.length < 2) {
                         throw new InvalidTaskNumberException();
                     }
@@ -53,7 +54,15 @@ public class Labubu {
                         if (idx <= 0 || idx > taskList.size()) {
                             throw new InvalidTaskNumberException();
                         }
-                        taskList.get(idx - 1).setDone(tokens[0].equalsIgnoreCase("mark"));
+                        if (tokens[0].equalsIgnoreCase("delete")) {
+                            Task task = taskList.remove(idx - 1);
+                            System.out.println("Noted. I've removed this task:");
+                            System.out.printf("  [%s][%s] %s%n", task.getMarker(),
+                                    (task.getDone() ? "X" : " "), task.getTaskDescription());
+                            System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                        } else {
+                            taskList.get(idx - 1).setDone(tokens[0].equalsIgnoreCase("mark"));
+                        }
                     } catch (NumberFormatException e) {
                         throw new InvalidTaskNumberException();
                     }

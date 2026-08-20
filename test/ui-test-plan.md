@@ -82,3 +82,47 @@ What can I do for you?
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test case: Delete tasks
+
+**Aim:** Verify that `delete` removes the selected task, renumbers the remaining tasks, and rejects an out-of-range task number without changing the list.
+
+**Inputs:**
+```text
+todo first task
+deadline second task /by Friday
+event project meeting /from Aug 6th 2pm /to 4pm
+delete 3
+list
+delete 3
+list
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________________________
+██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗   ██╗
+██║     ██╔══██╗██╔══██╗██║   ██║██╔══██╗██║   ██║
+██║     ███████║██████╔╝██║   ██║██████╔╝██║   ██║
+██║     ██╔══██║██╔══██╗██║   ██║██╔══██╗██║   ██║
+███████╗██║  ██║██████╔╝╚██████╔╝██████╔╝╚██████╔╝
+╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ 
+Hello! I'm Labubu.
+What can I do for you?
+
+> Added: first task
+> Added: second task (by: Friday)
+> Added: project meeting (from: Aug 6th 2pm, to: 4pm)
+> Noted. I've removed this task:
+  [E][ ] project meeting (from: Aug 6th 2pm, to: 4pm)
+Now you have 2 tasks in the list.
+> 1.[T][ ] first task
+2.[D][ ] second task (by: Friday)
+> Invalid task index.
+> 1.[T][ ] first task
+2.[D][ ] second task (by: Friday)
+> ____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
