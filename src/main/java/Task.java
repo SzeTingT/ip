@@ -1,4 +1,4 @@
-public class Task {
+public abstract class Task {
     String taskTitle;
     boolean done;
 
@@ -18,4 +18,15 @@ public class Task {
     public boolean getDone() {
         return this.done;
     }
+
+    /**
+     * Returns the task description with any subtype-specific details.
+     *
+     * @return task description for display in the task list
+     */
+    public String getTaskDescription() {
+        return taskTitle;
+    }
+
+    public abstract String getMarker();
 }
