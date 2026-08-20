@@ -1,22 +1,45 @@
 public abstract class Task {
+    /**
+     * Represents a task's progress state.
+     */
+    public enum Status {
+        INCOMPLETE,
+        IN_PROGRESS,
+        COMPLETED
+    }
+
     String taskTitle;
-    boolean done;
+    Status status;
 
     public Task(String taskTitle) {
         this.taskTitle = taskTitle;
-        this.done = false;
+        this.status = Status.INCOMPLETE;
     }
 
     public String getTaskTitle() {
         return taskTitle;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public boolean getDone() {
-        return this.done;
+    public Status getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Returns the symbol used to display this task's progress state.
+     *
+     * @return a single-character status indicator
+     */
+    public String getStatusIndicator() {
+        if (status == Status.COMPLETED) {
+            return "X";
+        } else if (status == Status.IN_PROGRESS) {
+            return "-";
+        }
+        return " ";
     }
 
     /**

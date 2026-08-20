@@ -58,10 +58,11 @@ public class Labubu {
                             Task task = taskList.remove(idx - 1);
                             System.out.println("Noted. I've removed this task:");
                             System.out.printf("  [%s][%s] %s%n", task.getMarker(),
-                                    (task.getDone() ? "X" : " "), task.getTaskDescription());
+                                    task.getStatusIndicator(), task.getTaskDescription());
                             System.out.println("Now you have " + taskList.size() + " tasks in the list.");
                         } else {
-                            taskList.get(idx - 1).setDone(tokens[0].equalsIgnoreCase("mark"));
+                            taskList.get(idx - 1).setStatus(tokens[0].equalsIgnoreCase("mark")
+                                    ? Task.Status.COMPLETED : Task.Status.INCOMPLETE);
                         }
                     } catch (NumberFormatException e) {
                         throw new InvalidTaskNumberException();
@@ -70,7 +71,7 @@ public class Labubu {
                     for (int i = 0; i < taskList.size(); i++) {
                         Task task = taskList.get(i);
                         System.out.printf("%d.[%s][%s] %s%n", (i + 1), task.getMarker(),
-                                (task.getDone() ? "X" : " "), task.getTaskDescription());
+                                task.getStatusIndicator(), task.getTaskDescription());
                     }
                 } else if (tokens[0].equalsIgnoreCase("todo")) {
                     String taskTitle = userInput.substring(tokens[0].length()).trim();
