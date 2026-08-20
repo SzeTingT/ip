@@ -6,7 +6,7 @@ import java.util.*;
  */
 public class Labubu {
     public static void main(String[] args) {
-        List<String> taskList = new ArrayList<>();
+        List<Task> taskList = new ArrayList<>();
 
         String intro =
                   "____________________________________________________________\n"
@@ -34,15 +34,34 @@ public class Labubu {
             System.out.print("> ");
             userInput = scanner.nextLine();
 
+            String[] tokens = userInput.split(" ");
+
             if (userInput.equalsIgnoreCase("bye")) { // Terminate; exit command
                 break;
             }
+            else if (tokens[0].equalsIgnoreCase("mark") || // Marking functionality
+                     tokens[0].equalsIgnoreCase("unmark")) {  // Unmarking functionality
+                if (tokens.length < 2) {
+                    System.out.println("Invalid input.");
+                    continue;
+                }
+                try {
+                    int idx = Integer.parseInt(tokens[1]);
+                    if (idx <= 0 || idx > taskList.size()) {
+                        System.out.println("Invalid input."); continue;
+                    }
+                    taskList.get(idx - 1).setDone(tokens[0].equalsIgnoreCase("mark"));
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input.");
+                }
+            }
             else if (userInput.equalsIgnoreCase("list")) { // List task list
                 for (int i = 0; i < taskList.size(); i++) {
-                    System.out.println((i + 1) + ". " + taskList.get(i));
+                    Task task = taskList.get(i);
+                    System.out.printf("%d. [%s] %s%n", (i + 1), (task.getDone() ? "X" : " "), task.getTaskTitle());
                 }
             } else { // Else, add input to task list
-                taskList.add(userInput);
+                taskList.add(new Task(userInput));
                 System.out.println("Added: " + userInput);
             }
         }
