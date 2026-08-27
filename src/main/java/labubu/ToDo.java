@@ -17,4 +17,9 @@ public class ToDo extends Task {
     public String getMarker() {
         return "T";
     }
+
+    @Override
+    public String toSaveFormat() {
+        return getMarker() + "|" + getStatus() + "|" + taskTitle;
+    }
 }

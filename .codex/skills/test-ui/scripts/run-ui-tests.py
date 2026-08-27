@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -146,16 +147,17 @@ def main() -> int:
 
     records: list[tuple[TestCase, str, bool]] = []
     for test_case in test_cases:
-        result = subprocess.run(
-            [java, "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
-             "-cp", str(class_path), "labubu.Labubu"],
-            cwd=root,
-            input=test_case.inputs + "\n",
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-        )
+        with tempfile.TemporaryDirectory() as test_directory:
+            result = subprocess.run(
+                [java, "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
+                 "-cp", str(class_path), "labubu.Labubu"],
+                cwd=test_directory,
+                input=test_case.inputs + "\n",
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
         actual_output = normalize(result.stdout + result.stderr)
         passed = result.returncode == 0 and actual_output == normalize(test_case.expected_output)
         records.append((test_case, actual_output, passed))

@@ -26,4 +26,9 @@ public class Deadline extends Task {
     public String getMarker() {
         return "D";
     }
+
+    @Override
+    public String toSaveFormat() {
+        return getMarker() + "|" + getStatus() + "|" + taskTitle + "|" + by;
+    }
 }

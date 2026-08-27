@@ -1,5 +1,9 @@
 package labubu;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,14 +12,87 @@ import java.util.Scanner;
  * Starts the Labubu chatbot application.
  */
 public class Labubu {
+    private static final Path SAVE_FILE = Path.of("data", "labubu.txt");
+
+    /**
+     * Saves the taskList variable as a file.
+     *
+     * @param taskList Task list.
+     */
+    private static void saveTasks(List<Task> taskList) {
+        List<String> lines = new ArrayList<>();
+
+        for (Task task : taskList) {
+            lines.add(task.toSaveFormat());
+        }
+
+        try {
+            Files.createDirectories(SAVE_FILE.getParent());
+            Files.write(SAVE_FILE, lines, StandardCharsets.UTF_8);
+        } catch (IOException exception) {
+            System.out.println("Unable to save tasks.");
+        }
+    }
+
+    /**
+     * Loads the save file in the relative path and returns.
+     *
+     * @return Loaded save file as List<Task>.
+     */
+    private static List<Task> loadTasks() {
+        if (Files.notExists(SAVE_FILE)) { // If save file doesn't exist
+            System.out.println("Save file not found. Starting with an empty task list.");
+            return new ArrayList<>();
+        }
+
+        List<String> lines;
+
+        try { // If save file cannot be read
+            lines = Files.readAllLines(SAVE_FILE, StandardCharsets.UTF_8);
+        } catch (IOException exception) {
+            System.out.println("Unable to load the save file. Starting with an empty task list.");
+            return new ArrayList<>();
+        }
+
+        List<Task> tasks = new ArrayList<>();
+
+        for (String line : lines) {
+            String[] parts = line.split("\\|", -1);
+            Task.Status status = Task.Status.valueOf(parts[1]);
+            Task task;
+
+            switch (parts[0]) {
+                case "T":
+                    task = new ToDo(parts[2]);
+                    break;
+                case "D":
+                    task = new Deadline(parts[2], parts[3]);
+                    break;
+                case "E":
+                    task = new Event(parts[2], parts[3], parts[4]);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown task marker.");
+            }
+
+            task.setStatus(status);
+            tasks.add(task);
+        }
+
+        if (!tasks.isEmpty()) {
+            System.out.println("Successfully loaded save file.");
+        }
+
+        return tasks;
+    }
+
     /**
      * Runs the Labubu command-line application.
      *
      * @param args Command-line arguments.
      */
-    public static void main(String[] args) {
-        List<Task> taskList = new ArrayList<>();
-
+    public static void main(String[] args) throws IOException {
+        List<Task> taskList = loadTasks();
         String intro =
                   "____________________________________________________________\n"
                 + "██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗   ██╗\n"
@@ -45,7 +122,8 @@ public class Labubu {
 
                 String[] tokens = userInput.split("\\s+");
 
-                if (userInput.equalsIgnoreCase("bye")) {
+                if (userInput.equalsIgnoreCase("bye") || userInput.equalsIgnoreCase("exit") || userInput.equalsIgnoreCase("quit")) {
+                    saveTasks(taskList);
                     break;
                 } else if (tokens[0].equalsIgnoreCase("mark")
                         || tokens[0].equalsIgnoreCase("unmark")
@@ -113,6 +191,7 @@ public class Labubu {
                      | UnrecognisedCommandException e) {
                 System.out.println(e.getMessage());
             }
+            saveTasks(taskList);
         }
         System.out.println(exit);
     }

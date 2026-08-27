@@ -67,4 +67,11 @@ public abstract class Task {
      * @return A task subtype marker.
      */
     public abstract String getMarker();
+
+    /**
+     * Returns Task object in save file format.
+     *
+     * @return A task condensed into single-line String.
+     */
+    public abstract String toSaveFormat();
 }
