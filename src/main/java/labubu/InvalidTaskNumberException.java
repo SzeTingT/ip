@@ -1,5 +1,7 @@
+package labubu;
+
 /**
- * Signals a mark or unmark command with an invalid task number.
+ * Signals a mark, unmark, or delete command with an invalid task number.
  */
 public class InvalidTaskNumberException extends Exception {
     /**

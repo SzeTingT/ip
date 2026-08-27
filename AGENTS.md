@@ -35,6 +35,10 @@ After every code update:
 1. Update `test/ui-test-plan.md` when the change affects existing console behaviour or needs new UI test coverage. Do not make unrelated test-plan edits.
 2. Invoke the project-specific `test-ui` skill after updating the code and test plan. If a test case fails, report the failure and its expected and actual outputs.
 
+## Coding standards
+
+When reviewing or editing code, identify violations of the project's Java coding standards and report the affected file, location, and rule. Do not automatically correct those violations unless the user explicitly requests the correction.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.

@@ -1,3 +1,8 @@
+package labubu;
+
+/**
+ * Represents a task managed by Labubu.
+ */
 public abstract class Task {
     /**
      * Represents a task's progress state.
@@ -8,9 +13,14 @@ public abstract class Task {
         COMPLETED
     }
 
-    String taskTitle;
-    Status status;
+    protected String taskTitle;
+    private Status status;
 
+    /**
+     * Creates a task with the given title and an incomplete status.
+     *
+     * @param taskTitle Title of the task.
+     */
     public Task(String taskTitle) {
         this.taskTitle = taskTitle;
         this.status = Status.INCOMPLETE;
@@ -31,7 +41,7 @@ public abstract class Task {
     /**
      * Returns the symbol used to display this task's progress state.
      *
-     * @return a single-character status indicator
+     * @return A single-character status indicator.
      */
     public String getStatusIndicator() {
         if (status == Status.COMPLETED) {
@@ -45,11 +55,16 @@ public abstract class Task {
     /**
      * Returns the task description with any subtype-specific details.
      *
-     * @return task description for display in the task list
+     * @return Task description for display in the task list.
      */
     public String getTaskDescription() {
         return taskTitle;
     }
 
+    /**
+     * Returns the marker that identifies this task's subtype.
+     *
+     * @return A task subtype marker.
+     */
     public abstract String getMarker();
 }

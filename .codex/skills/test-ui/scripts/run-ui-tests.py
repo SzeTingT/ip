@@ -124,7 +124,7 @@ def main() -> int:
         print(f"Test setup failed: {error}")
         return 2
 
-    source_files = sorted((root / "src" / "main" / "java").glob("*.java"))
+    source_files = sorted((root / "src" / "main" / "java").rglob("*.java"))
     if not source_files:
         print("Test setup failed: no Java source files were found.")
         return 2
@@ -148,7 +148,7 @@ def main() -> int:
     for test_case in test_cases:
         result = subprocess.run(
             [java, "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
-             "-cp", str(class_path), "Labubu"],
+             "-cp", str(class_path), "labubu.Labubu"],
             cwd=root,
             input=test_case.inputs + "\n",
             capture_output=True,

@@ -1,10 +1,18 @@
+package labubu;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.*;
 
 /**
  * Starts the Labubu chatbot application.
  */
 public class Labubu {
+    /**
+     * Runs the Labubu command-line application.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         List<Task> taskList = new ArrayList<>();
 
@@ -23,15 +31,12 @@ public class Labubu {
               + "Bye. Hope to see you again soon!\n"
               + "____________________________________________________________\n";
 
-        // Print introduction message
         System.out.println(intro);
-        String userInput = ""; // To store user input
         Scanner scanner = new Scanner(System.in);
 
-        while (true) { // Exit command
-            // Take in user input
+        while (true) {
             System.out.print("> ");
-            userInput = scanner.nextLine().trim();
+            String userInput = scanner.nextLine().trim();
 
             try {
                 if (userInput.isEmpty()) {
@@ -40,34 +45,33 @@ public class Labubu {
 
                 String[] tokens = userInput.split("\\s+");
 
-                if (userInput.equalsIgnoreCase("bye")) { // Terminate; exit command
+                if (userInput.equalsIgnoreCase("bye")) {
                     break;
-                }
-                else if (tokens[0].equalsIgnoreCase("mark") || // Marking functionality
-                         tokens[0].equalsIgnoreCase("unmark") || // Unmarking functionality
-                         tokens[0].equalsIgnoreCase("delete") ) {  // Delete functionality
+                } else if (tokens[0].equalsIgnoreCase("mark")
+                        || tokens[0].equalsIgnoreCase("unmark")
+                        || tokens[0].equalsIgnoreCase("delete")) {
                     if (tokens.length < 2) {
                         throw new InvalidTaskNumberException();
                     }
                     try {
-                        int idx = Integer.parseInt(tokens[1]);
-                        if (idx <= 0 || idx > taskList.size()) {
+                        int index = Integer.parseInt(tokens[1]);
+                        if (index <= 0 || index > taskList.size()) {
                             throw new InvalidTaskNumberException();
                         }
                         if (tokens[0].equalsIgnoreCase("delete")) {
-                            Task task = taskList.remove(idx - 1);
+                            Task task = taskList.remove(index - 1);
                             System.out.println("Noted. I've removed this task:");
                             System.out.printf("  [%s][%s] %s%n", task.getMarker(),
                                     task.getStatusIndicator(), task.getTaskDescription());
                             System.out.println("Now you have " + taskList.size() + " tasks in the list.");
                         } else {
-                            taskList.get(idx - 1).setStatus(tokens[0].equalsIgnoreCase("mark")
+                            taskList.get(index - 1).setStatus(tokens[0].equalsIgnoreCase("mark")
                                     ? Task.Status.COMPLETED : Task.Status.INCOMPLETE);
                         }
                     } catch (NumberFormatException e) {
                         throw new InvalidTaskNumberException();
                     }
-                } else if (userInput.equalsIgnoreCase("list")) { // List task list
+                } else if (userInput.equalsIgnoreCase("list")) {
                     for (int i = 0; i < taskList.size(); i++) {
                         Task task = taskList.get(i);
                         System.out.printf("%d.[%s][%s] %s%n", (i + 1), task.getMarker(),
@@ -81,7 +85,8 @@ public class Labubu {
                     taskList.add(new ToDo(taskTitle));
                     System.out.println("Added: " + taskTitle);
                 } else if (tokens[0].equalsIgnoreCase("deadline")) {
-                    String[] parts = userInput.substring(tokens[0].length()).trim().split("(?i)\\s+/by\\s+", -1);
+                    String[] parts = userInput.substring(tokens[0].length()).trim()
+                            .split("(?i)\\s+/by\\s+", -1);
                     if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
                         throw new InvalidTaskInputException();
                     }
@@ -89,7 +94,8 @@ public class Labubu {
                     taskList.add(task);
                     System.out.println("Added: " + task.getTaskDescription());
                 } else if (tokens[0].equalsIgnoreCase("event")) {
-                    String[] parts = userInput.substring(tokens[0].length()).trim().split("(?i)\\s+/from\\s+", -1);
+                    String[] parts = userInput.substring(tokens[0].length()).trim()
+                            .split("(?i)\\s+/from\\s+", -1);
                     if (parts.length != 2 || parts[0].trim().isEmpty()) {
                         throw new InvalidTaskInputException();
                     }

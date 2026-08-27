@@ -1,3 +1,5 @@
+package labubu;
+
 /**
  * Signals a command that Labubu does not support.
  */

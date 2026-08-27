@@ -1,3 +1,5 @@
+package labubu;
+
 /**
  * Signals a task command with missing or malformed task details.
  */
