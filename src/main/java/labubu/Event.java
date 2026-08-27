@@ -1,11 +1,13 @@
 package labubu;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a task that happens within a specified period.
  */
 public class Event extends Task {
-    private String from;
-    private String to;
+    private LocalDateTime from;
+    private LocalDateTime to;
 
     /**
      * Creates an event task with the given title and time period.
@@ -14,7 +16,7 @@ public class Event extends Task {
      * @param from Start time of the event.
      * @param to End time of the event.
      */
-    public Event(String taskTitle, String from, String to) {
+    public Event(String taskTitle, LocalDateTime from, LocalDateTime to) {
         super(taskTitle);
         this.from = from;
         this.to = to;
@@ -22,7 +24,7 @@ public class Event extends Task {
 
     @Override
     public String getTaskDescription() {
-        return taskTitle + " (from: " + from + ", to: " + to + ")";
+        return taskTitle + " (from: " + from.format(outputFormatter) + ", to: " + to.format(outputFormatter) + ")";
     }
 
     @Override

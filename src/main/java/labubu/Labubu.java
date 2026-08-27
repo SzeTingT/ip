@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,6 +18,16 @@ import java.util.Scanner;
  */
 public class Labubu {
     private static final Path SAVE_FILE = Path.of("data", "labubu.txt");
+    private static final DateTimeFormatter formatter =
+            new DateTimeFormatterBuilder()
+                    .appendPattern("dd/MM/yyyy")
+                    .optionalStart()
+                    .appendPattern(" HH:mm")
+                    .optionalEnd()
+                    .parseDefaulting(ChronoField.HOUR_OF_DAY, 23)
+                    .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 59)
+                    .toFormatter(); // Custom date time formatter
+
 
     /**
      * Saves the taskList variable as a file.
@@ -39,7 +54,7 @@ public class Labubu {
      *
      * @return Loaded save file as List<Task>.
      */
-    private static List<Task> loadTasks() {
+    private static List<Task> loadTasks() throws IOException {
         if (Files.notExists(SAVE_FILE)) { // If save file doesn't exist
             System.out.println("Save file not found. Starting with an empty task list.");
             return new ArrayList<>();
@@ -61,18 +76,31 @@ public class Labubu {
             Task.Status status = Task.Status.valueOf(parts[1]);
             Task task;
 
-            switch (parts[0]) {
-                case "T":
-                    task = new ToDo(parts[2]);
-                    break;
-                case "D":
-                    task = new Deadline(parts[2], parts[3]);
-                    break;
-                case "E":
-                    task = new Event(parts[2], parts[3], parts[4]);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown task marker.");
+            try {
+                switch (parts[0]) {
+                    case "T":
+                        task = new ToDo(parts[2]);
+                        break;
+
+                    case "D":
+                        task = new Deadline(parts[2], LocalDateTime.parse(parts[3]));
+                        break;
+
+                    case "E":
+                        task = new Event(
+                                parts[2],
+                                LocalDateTime.parse(parts[3]),
+                                LocalDateTime.parse(parts[4])
+                        );
+                        break;
+
+                    default:
+                        Files.deleteIfExists(SAVE_FILE); // Delete corrupted save file
+                        throw new IllegalArgumentException("Unknown task marker. Resetting save file.");
+                }
+            } catch (DateTimeParseException e) { // Delete corrupted save file
+                Files.deleteIfExists(SAVE_FILE);
+                throw new IllegalArgumentException("Invalid date/time format. Resetting save file.", e);
             }
 
             task.setStatus(status);
@@ -101,8 +129,12 @@ public class Labubu {
                 + "██║     ██╔══██║██╔══██╗██║   ██║██╔══██╗██║   ██║\n"
                 + "███████╗██║  ██║██████╔╝╚██████╔╝██████╔╝╚██████╔╝\n"
                 + "╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ \n"
-                + "Hello! I'm Labubu.\n"
-                + "What can I do for you?\n";
+                + "Hello! I'm Labubu. A task tracker bot.\n\n"
+                + "Tasks available: \n"
+                + "To-do: todo [task-title] \n"
+                + "Deadline: deadline [task-title] /by [date-time] \n"
+                + "Event: event [task-title] /from [date-time] /to [date-time] \n"
+                + "Enter dates in the following format: dd/MM/yyyy <optional>HH:mm</optional>  e.g: 06/07/2026 18:30\n";
         String exit =
                 "____________________________________________________________\n"
               + "Bye. Hope to see you again soon!\n"
@@ -168,7 +200,7 @@ public class Labubu {
                     if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
                         throw new InvalidTaskInputException();
                     }
-                    Task task = new Deadline(parts[0].trim(), parts[1].trim());
+                    Task task = new Deadline(parts[0].trim(), LocalDateTime.parse(parts[1].trim(), formatter));
                     taskList.add(task);
                     System.out.println("Added: " + task.getTaskDescription());
                 } else if (tokens[0].equalsIgnoreCase("event")) {
@@ -181,7 +213,7 @@ public class Labubu {
                     if (timing.length != 2 || timing[0].trim().isEmpty() || timing[1].trim().isEmpty()) {
                         throw new InvalidTaskInputException();
                     }
-                    Task task = new Event(parts[0].trim(), timing[0].trim(), timing[1].trim());
+                    Task task = new Event(parts[0].trim(), LocalDateTime.parse(timing[0].trim(), formatter), LocalDateTime.parse(timing[1].trim(), formatter));
                     taskList.add(task);
                     System.out.println("Added: " + task.getTaskDescription());
                 } else { // Else, reject an unsupported command

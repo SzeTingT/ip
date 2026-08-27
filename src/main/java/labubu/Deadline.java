@@ -1,10 +1,12 @@
 package labubu;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a task that must be completed by a specified time.
  */
 public class Deadline extends Task {
-    private String by;
+    private LocalDateTime by;
 
     /**
      * Creates a deadline task with the given title and deadline.
@@ -12,14 +14,14 @@ public class Deadline extends Task {
      * @param taskTitle Title of the task.
      * @param by Deadline of the task.
      */
-    public Deadline(String taskTitle, String by) {
+    public Deadline(String taskTitle, LocalDateTime by) {
         super(taskTitle);
         this.by = by;
     }
 
     @Override
     public String getTaskDescription() {
-        return taskTitle + " (by: " + by + ")";
+        return taskTitle + " (by: " + by.format(outputFormatter) + ")";
     }
 
     @Override
