@@ -29,4 +29,9 @@ public class Event extends Task {
     public String getMarker() {
         return "E";
     }
+
+    @Override
+    public String toSaveFormat() {
+        return getMarker() + "|" + getStatus() + "|" + taskTitle + "|" + from + "|" + to;
+    }
 }
