@@ -37,6 +37,8 @@ After every code update:
 
 ## Coding standards
 
+All Java code in this project must follow the project-specific `labubu-java-coding-standard` skill in `.codex/skills/labubu-java-coding-standard/SKILL.md`, which is based on the SE-EDU basic and intermediate Java coding standard. Apply it when creating, editing, reviewing, or formatting Java code, and run Checkstyle when possible.
+
 When reviewing or editing code, identify violations of the project's Java coding standards and report the affected file, location, and rule. Do not automatically correct those violations unless the user explicitly requests the correction.
 
 ## Git
