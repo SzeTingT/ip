@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class TaskList {
     private final List<Task> taskList = new ArrayList<>();
-    
     /**
      * Creates an empty task list.
      */

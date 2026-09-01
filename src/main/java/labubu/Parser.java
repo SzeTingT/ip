@@ -55,7 +55,9 @@ public class Parser {
 
             String[] tokens = userInput.split("\\s+");
 
-            if (userInput.equalsIgnoreCase("bye") || userInput.equalsIgnoreCase("exit") || userInput.equalsIgnoreCase("quit")) {
+            if (userInput.equalsIgnoreCase("bye")
+                    || userInput.equalsIgnoreCase("exit")
+                    || userInput.equalsIgnoreCase("quit")) {
                 storage.saveTasks(tasks);
                 terminateFlag[0] = true;
                 return;
@@ -130,7 +132,9 @@ public class Parser {
                 if (timing.length != 2 || timing[0].trim().isEmpty() || timing[1].trim().isEmpty()) {
                     throw new InvalidTaskInputException();
                 }
-                Task task = new Event(parts[0].trim(), LocalDateTime.parse(timing[0].trim(), formatter), LocalDateTime.parse(timing[1].trim(), formatter));
+                Task task = new Event(parts[0].trim(),
+                        LocalDateTime.parse(timing[0].trim(), formatter),
+                        LocalDateTime.parse(timing[1].trim(), formatter));
                 tasks.addTask(task);
                 System.out.println("Added: " + task.getTaskDescription());
             } else { // Else, reject an unsupported command

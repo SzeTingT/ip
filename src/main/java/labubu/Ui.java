@@ -17,7 +17,8 @@ public class Ui {
                     + "To-do: todo [task-title] \n"
                     + "Deadline: deadline [task-title] /by [date-time] \n"
                     + "Event: event [task-title] /from [date-time] /to [date-time] \n"
-                    + "Enter dates in the following format: dd/MM/yyyy <optional>HH:mm</optional>  e.g: 06/07/2026 18:30\n";
+                    + "Enter dates in the following format: dd/MM/yyyy <optional>HH:mm</optional>  "
+                    + "e.g: 06/07/2026 18:30\n";
 
     private final String exit =
             "____________________________________________________________\n"

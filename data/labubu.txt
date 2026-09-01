@@ -1,5 +1,6 @@
-T|INCOMPLETE|buy groceries
-D|COMPLETED|submit project report|2026-09-05T23:59
+T|COMPLETED|buy groceries
+D|INCOMPLETE|submit project report|2026-09-05T23:59
 E|IN_PROGRESS|team meeting|2026-09-06T14:00|2026-09-06T15:00
 T|COMPLETED|read software engineering notes
 T|INCOMPLETE|rip some packs
+T|COMPLETED|finish weeklies

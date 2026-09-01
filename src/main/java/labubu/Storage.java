@@ -14,8 +14,6 @@ import java.util.List;
  */
 public class Storage {
     private final Path filePath;
-
-
     /**
      * Creates a storage handler for the specified file.
      *
@@ -40,7 +38,7 @@ public class Storage {
             System.out.println("Unable to save tasks.");
         }
     }
-    
+
     /**
      * Loads tasks from the save file.
      *
@@ -110,14 +108,14 @@ public class Storage {
 
     private Task.Status parseStatus(String status) {
         switch (status) {
-        case "X":
-            return Task.Status.COMPLETED;
-        case "-":
-            return Task.Status.IN_PROGRESS;
-        case " ":
-            return Task.Status.INCOMPLETE;
-        default:
-            return Task.Status.valueOf(status);
+            case "X":
+                return Task.Status.COMPLETED;
+            case "-":
+                return Task.Status.IN_PROGRESS;
+            case " ":
+                return Task.Status.INCOMPLETE;
+            default:
+                return Task.Status.valueOf(status);
         }
     }
 }
