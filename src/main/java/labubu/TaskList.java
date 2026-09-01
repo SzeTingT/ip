@@ -75,4 +75,22 @@ public class TaskList {
         taskList.remove(index);
         return task;
     }
+
+    /**
+     * Returns a list of tasks with keyword in their task titles.
+     *
+     * @param keyword Word to match against.
+     * @return List of tasks that contain keyword.
+     */
+    public List<Task> findTaskByKeyword(String keyword) {
+        List<Task> matchedTasks = new ArrayList<>();
+
+        for (Task task : taskList) {
+            if (task.getTaskTitle().contains(keyword)) {
+                matchedTasks.add(task);
+            }
+        }
+
+        return matchedTasks;
+    }
 }

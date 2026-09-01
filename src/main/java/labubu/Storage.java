@@ -67,7 +67,7 @@ public class Storage {
 
         for (String line : lines) {
             String[] parts = line.split("\\|", -1);
-            Task.Status status = Task.Status.valueOf(parts[1]);
+            Task.Status status = parseStatus(parts[1]);
             Task task;
 
             try {
@@ -106,5 +106,18 @@ public class Storage {
         }
 
         return tasks;
+    }
+
+    private Task.Status parseStatus(String status) {
+        switch (status) {
+        case "X":
+            return Task.Status.COMPLETED;
+        case "-":
+            return Task.Status.IN_PROGRESS;
+        case " ":
+            return Task.Status.INCOMPLETE;
+        default:
+            return Task.Status.valueOf(status);
+        }
     }
 }
