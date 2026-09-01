@@ -1,17 +1,12 @@
 package labubu;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskList {
-    List<Task> taskList = new ArrayList<>();
+    private final List<Task> taskList = new ArrayList<>();
 
-    public TaskList() {};
+    public TaskList() {}
 
     public TaskList(List<Task> tasks) {
         taskList.addAll(tasks);

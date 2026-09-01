@@ -1,37 +1,28 @@
 package labubu;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
  * Starts the Labubu chatbot application.
  */
 public class Labubu {
-    private Storage storage;
-    private TaskList tasks;
-    private Ui ui;
-    private Parser parser;
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
 
     public Labubu(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
 
+        TaskList loadedTasks;
         try {
-            tasks = new TaskList(storage.loadTasks());
+            loadedTasks = new TaskList(storage.loadTasks());
         } catch (IOException | IllegalArgumentException e) {
             System.out.printf("Save file corrupted or not found. Creating new save...");
-            tasks = new TaskList();
+            loadedTasks = new TaskList();
         }
+        tasks = loadedTasks;
     }
 
     /**

@@ -17,7 +17,7 @@ public abstract class Task {
         COMPLETED
     }
 
-    protected String taskTitle;
+    protected final String taskTitle;
     private Status status;
 
     /**
