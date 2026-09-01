@@ -9,10 +9,18 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles loading and saving tasks in the application's save file.
+ */
 public class Storage {
     private final Path filePath;
 
 
+    /**
+     * Creates a storage handler for the specified file.
+     *
+     * @param filePath Path to the save file.
+     */
     public Storage(String filePath) {
         this.filePath = Path.of(filePath);
     }
@@ -34,9 +42,11 @@ public class Storage {
     }
 
     /**
-     * Loads the save file in the relative path and returns.
+     * Loads tasks from the save file.
      *
-     * @return Loaded save file as List<Task>.
+     * @return Tasks reconstructed from the save file.
+     * @throws IOException If the save file cannot be read.
+     * @throws IllegalArgumentException If the save file contains invalid data.
      */
     public List<Task> loadTasks() throws IOException, IllegalArgumentException {
         if (Files.notExists(filePath)) { // If save file doesn't exist

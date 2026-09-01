@@ -1,5 +1,8 @@
 package labubu;
 
+/**
+ * Provides the user-facing introduction and exit messages for Labubu.
+ */
 public class Ui {
     private final String intro =
             "____________________________________________________________\n"
@@ -21,10 +24,20 @@ public class Ui {
                     + "Bye. Hope to see you again soon!\n"
                     + "____________________________________________________________\n";
 
+    /**
+     * Returns the application's introduction message.
+     *
+     * @return Introduction message.
+     */
     public String getIntro() {
         return intro;
     }
 
+    /**
+     * Returns the application's exit message.
+     *
+     * @return Exit message.
+     */
     public String getExit() {
         return exit;
     }
