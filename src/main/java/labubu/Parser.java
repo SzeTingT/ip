@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.Scanner;
 
+/**
+ * Parses user commands and applies them to Labubu's task list.
+ */
 public class Parser {
     private static final DateTimeFormatter formatter =
             new DateTimeFormatterBuilder()
@@ -21,12 +24,24 @@ public class Parser {
     private final Storage storage;
     private final TaskList tasks;
 
+    /**
+     * Creates a parser using the given input source and task data.
+     *
+     * @param scanner Source of user commands.
+     * @param storage Storage used to persist tasks.
+     * @param tasks Task list to modify.
+     */
     public Parser(Scanner scanner, Storage storage, TaskList tasks) {
         this.scanner = scanner;
         this.storage = storage;
         this.tasks = tasks;
     }
 
+    /**
+     * Reads and processes one command from the user.
+     *
+     * @param terminateFlag Mutable flag set to true when the user exits.
+     */
     public void parse(boolean[] terminateFlag) {
         System.out.print("> ");
         String userInput = scanner.nextLine().trim();

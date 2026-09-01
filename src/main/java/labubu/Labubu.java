@@ -11,6 +11,11 @@ public class Labubu {
     private final TaskList tasks;
     private final Ui ui;
 
+    /**
+     * Creates Labubu and loads tasks from the specified save file.
+     *
+     * @param filePath Path to the save file.
+     */
     public Labubu(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -43,6 +48,11 @@ public class Labubu {
         System.out.println(ui.getExit());
     }
 
+    /**
+     * Starts the Labubu application using its default save file.
+     *
+     * @param args Command-line arguments, which are ignored.
+     */
     public static void main(String[] args) {
         new Labubu("data/labubu.txt").run();
     }

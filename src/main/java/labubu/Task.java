@@ -30,14 +30,29 @@ public abstract class Task {
         this.status = Status.INCOMPLETE;
     }
 
+    /**
+     * Returns this task's title.
+     *
+     * @return Task title.
+     */
     public String getTaskTitle() {
         return taskTitle;
     }
 
+    /**
+     * Updates this task's progress status.
+     *
+     * @param status New progress status.
+     */
     public void setStatus(Status status) {
         this.status = status;
     }
 
+    /**
+     * Returns this task's progress status.
+     *
+     * @return Current progress status.
+     */
     public Status getStatus() {
         return this.status;
     }
