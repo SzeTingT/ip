@@ -32,7 +32,7 @@ public class Storage {
             System.out.println("Unable to save tasks.");
         }
     }
-
+    
     /**
      * Loads the save file in the relative path and returns.
      *

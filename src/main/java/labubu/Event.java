@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
  * Represents a task that happens within a specified period.
  */
 public class Event extends Task {
-    private LocalDateTime from;
-    private LocalDateTime to;
+    private final LocalDateTime from;
+    private final LocalDateTime to;
 
     /**
      * Creates an event task with the given title and time period.
