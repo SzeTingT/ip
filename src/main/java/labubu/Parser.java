@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Parser {
@@ -66,10 +68,25 @@ public class Parser {
                 } catch (NumberFormatException e) {
                     throw new InvalidTaskNumberException();
                 }
+            } else if (tokens[0].equalsIgnoreCase("find")) {
+                if (tokens.length < 2) {
+                    throw new InvalidTaskInputException();
+                }
+                String keyword = String.join(" ", Arrays.copyOfRange(tokens, 1, tokens.length));
+                List<Task> matchedTasks = tasks.findTaskByKeyword(keyword);
+
+                System.out.printf("____________________________________________________________%n");
+                System.out.printf("These are the matching tasks:%n");
+                for (int i = 0; i < matchedTasks.size(); i++) {
+                    Task task = matchedTasks.get(i);
+                    System.out.printf("%d. [%s][%s] %s%n", i + 1, task.getMarker(),
+                            task.getStatusIndicator(), task.getTaskDescription());
+                }
+                System.out.printf("____________________________________________________________%n");
             } else if (userInput.equalsIgnoreCase("list")) {
                 for (int i = 0; i < tasks.getTaskListSize(); i++) {
                     Task task = tasks.getTask(i);
-                    System.out.printf("%d.[%s][%s] %s%n", (i + 1), task.getMarker(),
+                    System.out.printf("%d. [%s][%s] %s%n", (i + 1), task.getMarker(),
                             task.getStatusIndicator(), task.getTaskDescription());
                 }
             } else if (tokens[0].equalsIgnoreCase("todo")) {

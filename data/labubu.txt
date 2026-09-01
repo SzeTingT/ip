@@ -1,4 +1,5 @@
-T|INCOMPLETE|sfn
-T|INCOMPLETE|sjignsijf
-D|COMPLETED|do this|2026-08-07T23:59
-E|INCOMPLETE|do that|2024-08-07T23:59|2025-07-04T19:30
+T|INCOMPLETE|buy groceries
+D|COMPLETED|submit project report|2026-09-05T23:59
+E|IN_PROGRESS|team meeting|2026-09-06T14:00|2026-09-06T15:00
+T|COMPLETED|read software engineering notes
+T|INCOMPLETE|rip some packs

@@ -20,6 +20,6 @@ public class ToDo extends Task {
 
     @Override
     public String toSaveFormat() {
-        return getMarker() + "|" + getStatusIndicator() + "|" + taskTitle;
+        return getMarker() + "|" + getStatus().name() + "|" + taskTitle;
     }
 }
