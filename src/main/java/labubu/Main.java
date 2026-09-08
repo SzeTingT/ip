@@ -11,13 +11,20 @@ public class Main extends Application {
     public void start(Stage stage) {
         MainWindow mainWindow = new MainWindow(new Labubu("data/labubu.txt"));
         Scene scene = new Scene(mainWindow, 700, 650);
-        scene.getStylesheets().add(getClass().getResource("/css/main-window.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("/css/input-field.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("/css/speech-bubble.css").toExternalForm());
+        addStylesheets(scene,
+                "/css/main-window.css",
+                "/css/input-field.css",
+                "/css/speech-bubble.css");
         stage.setTitle("Labubu - Task Tracker");
         stage.setScene(scene);
         stage.setMinHeight(220);
         stage.setMinWidth(417);
         stage.show();
+    }
+
+    private void addStylesheets(Scene scene, String... stylesheetPaths) {
+        for (String stylesheetPath : stylesheetPaths) {
+            scene.getStylesheets().add(getClass().getResource(stylesheetPath).toExternalForm());
+        }
     }
 }

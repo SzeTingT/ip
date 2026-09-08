@@ -2,5 +2,8 @@ T|COMPLETED|buy groceries
 D|INCOMPLETE|submit project report|2026-09-05T23:59
 E|IN_PROGRESS|team meeting|2026-09-06T14:00|2026-09-06T15:00
 T|COMPLETED|read software engineering notes
-T|INCOMPLETE|rip some packs
+T|COMPLETED|rip some packs
 T|COMPLETED|finish weeklies
+T|INCOMPLETE|finish week 5 cs2103t
+T|INCOMPLETE|check if save works
+T|INCOMPLETE|check again
