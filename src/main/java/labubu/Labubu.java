@@ -79,7 +79,7 @@ public class Labubu {
         if (args.length > 0 && args[0].equalsIgnoreCase("--cli")) {
             new Labubu("data/labubu.txt").run();
         } else {
-            LabubuGui.launch(args);
+            Main.launch(args);
         }
     }
 }
