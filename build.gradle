@@ -53,7 +53,7 @@ test {
 }
 
 application {
-    mainClass = 'labubu.Labubu'
+    mainClass.set("labubu.Launcher")
 }
 
 jar {

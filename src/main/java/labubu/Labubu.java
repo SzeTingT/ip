@@ -1,6 +1,9 @@
 package labubu;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -49,11 +52,34 @@ public class Labubu {
     }
 
     /**
+     * Processes one command for the graphical user interface.
+     *
+     * @param command Command entered by the user.
+     * @return Labubu's response without the command prompt.
+     */
+    public String processGuiCommand(String command) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        PrintStream originalOutput = System.out;
+        boolean[] terminateFlag = {false};
+        try (Scanner scanner = new Scanner(command + System.lineSeparator())) {
+            System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
+            new Parser(scanner, storage, tasks).parse(terminateFlag);
+        } finally {
+            System.setOut(originalOutput);
+        }
+        return output.toString(StandardCharsets.UTF_8).replaceFirst("^> ", "").trim();
+    }
+
+    /**
      * Starts the Labubu application using its default save file.
      *
      * @param args Command-line arguments, which are ignored.
      */
     public static void main(String[] args) {
-        new Labubu("data/labubu.txt").run();
+        if (args.length > 0 && args[0].equalsIgnoreCase("--cli")) {
+            new Labubu("data/labubu.txt").run();
+        } else {
+            Main.launch(args);
+        }
     }
 }

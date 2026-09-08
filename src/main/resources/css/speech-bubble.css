@@ -1,0 +1,5 @@
+.bot-row { -fx-alignment: center-left; -fx-spacing: 8; }
+.user-row { -fx-alignment: center-right; }
+.bot-bubble, .user-bubble { -fx-max-width: 500; -fx-padding: 10 14; -fx-background-radius: 16; }
+.bot-bubble { -fx-background-color: white; -fx-border-color: #edc6dc; -fx-border-radius: 16; }
+.user-bubble { -fx-background-color: #d9b8ff; }
