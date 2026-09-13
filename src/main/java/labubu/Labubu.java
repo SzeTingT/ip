@@ -40,12 +40,10 @@ public class Labubu {
     public void run() {
         System.out.println(ui.getIntro());
 
-        boolean[] terminateFlag = {false};
         Scanner scanner = new Scanner(System.in);
 
         Parser parser = new Parser(scanner, storage, tasks);
-        while (!terminateFlag[0]) {
-            parser.parse(terminateFlag);
+        while (!parser.parse()) {
         }
 
         System.out.println(ui.getExit());
@@ -60,10 +58,9 @@ public class Labubu {
     public String processGuiCommand(String command) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOutput = System.out;
-        boolean[] terminateFlag = {false};
         try (Scanner scanner = new Scanner(command + System.lineSeparator())) {
             System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            new Parser(scanner, storage, tasks).parse(terminateFlag);
+            new Parser(scanner, storage, tasks).parse();
         } finally {
             System.setOut(originalOutput);
         }

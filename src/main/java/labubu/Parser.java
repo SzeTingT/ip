@@ -42,9 +42,9 @@ public class Parser {
     /**
      * Reads and processes one command from the user.
      *
-     * @param terminateFlag Mutable flag set to true when the user exits.
+     * @return True if the user requests application termination.
      */
-    public void parse(boolean[] terminateFlag) {
+    public boolean parse() {
         System.out.print("> ");
         String userInput = scanner.nextLine().trim();
 
@@ -59,8 +59,7 @@ public class Parser {
             switch (command) {
             case EXIT:
                 storage.saveTasks(tasks);
-                terminateFlag[0] = true;
-                return;
+                return true;
             case TASK_UPDATE:
                 handleTaskUpdate(tokens);
                 break;
@@ -89,6 +88,7 @@ public class Parser {
             System.out.println(e.getMessage());
         }
         storage.saveTasks(tasks);
+        return false;
     }
 
     private void handleTaskUpdate(String[] tokens) throws InvalidTaskNumberException {
