@@ -46,6 +46,7 @@ public abstract class Task {
      * @param status New progress status.
      */
     public void setStatus(Status status) {
+        assert status != null : "Task status must not be null";
         this.status = status;
     }
 

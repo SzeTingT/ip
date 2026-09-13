@@ -2,6 +2,7 @@ package labubu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Stores and manages the tasks tracked by Labubu.
@@ -28,11 +29,9 @@ public class TaskList {
      * @return Lines suitable for writing to the save file.
      */
     public List<String> toSaveFormat() {
-        List<String> lines = new ArrayList<>();
-        for (Task task : taskList) {
-            lines.add(task.toSaveFormat());
-        }
-        return lines;
+        return taskList.stream()
+                .map(Task::toSaveFormat)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -60,6 +59,7 @@ public class TaskList {
      * @param task Task to add.
      */
     public void addTask(Task task) {
+        assert task != null : "Task list must not contain null tasks";
         taskList.add(task);
     }
 
@@ -82,14 +82,8 @@ public class TaskList {
      * @return List of tasks that contain keyword.
      */
     public List<Task> findTaskByKeyword(String keyword) {
-        List<Task> matchedTasks = new ArrayList<>();
-
-        for (Task task : taskList) {
-            if (task.getTaskTitle().contains(keyword)) {
-                matchedTasks.add(task);
-            }
-        }
-
-        return matchedTasks;
+        return taskList.stream()
+                .filter(task -> task.getTaskTitle().contains(keyword))
+                .collect(Collectors.toList());
     }
 }
