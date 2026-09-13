@@ -78,6 +78,9 @@ public class Parser {
             case EVENT:
                 handleEvent(userInput, tokens[0]);
                 break;
+            case HELP:
+                System.out.println(new Ui().getHelp());
+                break;
             case UNKNOWN:
                 throw new UnrecognisedCommandException();
             default:

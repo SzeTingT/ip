@@ -14,7 +14,8 @@ public class Main extends Application {
         addStylesheets(scene,
                 "/css/main-window.css",
                 "/css/input-field.css",
-                "/css/speech-bubble.css");
+                "/css/speech-bubble.css",
+                "/css/help-panel.css");
         stage.setTitle("Labubu - Task Tracker");
         stage.setScene(scene);
         stage.setMinHeight(220);

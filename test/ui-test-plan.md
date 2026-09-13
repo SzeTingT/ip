@@ -126,3 +126,90 @@ Now you have 2 tasks in the list.
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test case: Open the help guide
+
+**Aim:** Verify that the `help` command displays the command guide without changing the task list.
+
+**Inputs:**
+```text
+help
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________________________
+██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗   ██╗
+██║     ██╔══██╗██╔══██╗██║   ██║██╔══██╗██║   ██║
+██║     ███████║██████╔╝██║   ██║██████╔╝██║   ██║
+██║     ██╔══██║██╔══██╗██║   ██║██╔══██╗██║   ██║
+███████╗██║  ██║██████╔╝╚██████╔╝██████╔╝╚██████╔╝
+╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ 
+Hello! I'm Labubu. A task tracker bot.
+
+Tasks available: 
+To-do: todo [task-title] 
+Deadline: deadline [task-title] /by [date-time] 
+Event: event [task-title] /from [date-time] /to [date-time] 
+Help: help
+Enter dates in the following format: dd/MM/yyyy <optional>HH:mm</optional>  e.g: 06/07/2026 18:30
+
+> Hello! I'm Labubu, your personal task-tracking bot.
+
+Here are the commands you can use:
+
+ADD TASKS
+  todo [task title]
+  Adds a task without a date or time.
+
+  deadline [task title] /by [date and time]
+  Adds a task that must be completed by a specified date and time.
+
+  event [task title] /from [start date and time] /to [end date and time]
+  Adds a task that takes place during a specified period.
+
+Dates should use this format:
+  dd/MM/yyyy
+  dd/MM/yyyy HH:mm
+
+Examples:
+  todo read book
+  deadline return book /by 06/07/2026
+  event team meeting /from 06/07/2026 14:00 /to 06/07/2026 15:00
+
+MANAGE TASKS
+  list
+  Displays all tasks.
+
+  find [keyword]
+  Displays tasks whose titles contain the keyword.
+
+  mark [task number]
+  Marks a task as completed.
+
+  unmark [task number]
+  Marks a task as incomplete.
+
+  delete [task number]
+  Deletes a task.
+
+OTHER
+  help
+  Opens this help guide.
+
+  bye
+  exit
+  quit
+  Saves your tasks and closes Labubu.
+
+Task status indicators:
+  [ ] Incomplete
+  [-] In progress
+  [X] Completed
+
+Task numbers are based on their position in the task list.
+> ____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
