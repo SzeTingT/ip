@@ -11,6 +11,7 @@ enum Command {
     TODO(false, "todo"),
     DEADLINE(false, "deadline"),
     EVENT(false, "event"),
+    HELP(true, "help"),
     UNKNOWN(false);
 
     private final boolean isExactInput;

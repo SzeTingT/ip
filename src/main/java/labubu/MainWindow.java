@@ -9,6 +9,7 @@ public class MainWindow extends BorderPane {
     private final VBox conversation = new VBox(10);
     private final ScrollPane messages = new ScrollPane(conversation);
     private final Labubu labubu;
+    private HelpPanel helpPanel;
 
     /** Creates the main window for a Labubu instance. */
     public MainWindow(Labubu labubu) {
@@ -23,10 +24,28 @@ public class MainWindow extends BorderPane {
 
     private void handleCommand(String command) {
         addMessage(command, true);
-        addMessage(labubu.processGuiCommand(command), false);
+        if (command.equalsIgnoreCase("help")) {
+            showHelpPanel();
+        } else {
+            addMessage(labubu.processGuiCommand(command), false);
+        }
     }
 
     private void addMessage(String text, boolean fromUser) {
         conversation.getChildren().add(new SpeechBubble(text, fromUser));
+    }
+
+    private void showHelpPanel() {
+        if (helpPanel != null) {
+            return;
+        }
+
+        helpPanel = new HelpPanel(new Ui().getHelp(), this::hideHelpPanel);
+        conversation.getChildren().add(helpPanel);
+    }
+
+    private void hideHelpPanel() {
+        conversation.getChildren().remove(helpPanel);
+        helpPanel = null;
     }
 }
