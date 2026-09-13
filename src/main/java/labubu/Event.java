@@ -24,7 +24,8 @@ public class Event extends Task {
 
     @Override
     public String getTaskDescription() {
-        return taskTitle + " (from: " + from.format(outputFormatter) + ", to: " + to.format(outputFormatter) + ")";
+        return taskTitle + " (from: " + from.format(OUTPUT_FORMATTER)
+                + ", to: " + to.format(OUTPUT_FORMATTER) + ")";
     }
 
     @Override

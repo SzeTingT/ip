@@ -64,39 +64,7 @@ public class Storage {
         List<Task> tasks = new ArrayList<>();
 
         for (String line : lines) {
-            String[] parts = line.split("\\|", -1);
-            Task.Status status = parseStatus(parts[1]);
-            Task task;
-
-            try {
-                switch (parts[0]) {
-                    case "T":
-                        task = new ToDo(parts[2]);
-                        break;
-
-                    case "D":
-                        task = new Deadline(parts[2], LocalDateTime.parse(parts[3]));
-                        break;
-
-                    case "E":
-                        task = new Event(
-                                parts[2],
-                                LocalDateTime.parse(parts[3]),
-                                LocalDateTime.parse(parts[4])
-                        );
-                        break;
-
-                    default:
-                        Files.deleteIfExists(filePath); // Delete corrupted save file
-                        throw new IllegalArgumentException("Unknown task marker. Resetting save file.");
-                }
-            } catch (DateTimeParseException e) { // Delete corrupted save file
-                Files.deleteIfExists(filePath);
-                throw new IllegalArgumentException("Invalid date/time format. Resetting save file.", e);
-            }
-
-            task.setStatus(status);
-            tasks.add(task);
+            tasks.add(loadTask(line));
         }
 
         if (!tasks.isEmpty()) {
@@ -104,6 +72,39 @@ public class Storage {
         }
 
         return tasks;
+    }
+
+    private Task loadTask(String line) throws IOException {
+        String[] parts = line.split("\\|", -1);
+        Task.Status status = parseStatus(parts[1]);
+        Task task;
+
+        try {
+            switch (parts[0]) {
+                case "T":
+                    task = new ToDo(parts[2]);
+                    break;
+                case "D":
+                    task = new Deadline(parts[2], LocalDateTime.parse(parts[3]));
+                    break;
+                case "E":
+                    task = new Event(
+                            parts[2],
+                            LocalDateTime.parse(parts[3]),
+                            LocalDateTime.parse(parts[4])
+                    );
+                    break;
+                default:
+                    Files.deleteIfExists(filePath);
+                    throw new IllegalArgumentException("Unknown task marker. Resetting save file.");
+            }
+        } catch (DateTimeParseException e) {
+            Files.deleteIfExists(filePath);
+            throw new IllegalArgumentException("Invalid date/time format. Resetting save file.", e);
+        }
+
+        task.setStatus(status);
+        return task;
     }
 
     private Task.Status parseStatus(String status) {

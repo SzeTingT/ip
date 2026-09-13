@@ -21,7 +21,7 @@ public class Deadline extends Task {
 
     @Override
     public String getTaskDescription() {
-        return taskTitle + " (by: " + by.format(outputFormatter) + ")";
+        return taskTitle + " (by: " + by.format(OUTPUT_FORMATTER) + ")";
     }
 
     @Override

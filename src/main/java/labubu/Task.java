@@ -6,7 +6,8 @@ import java.time.format.DateTimeFormatter;
  * Represents a task managed by Labubu.
  */
 public abstract class Task {
-    protected final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy '['h:mma']'");
+    protected static final DateTimeFormatter OUTPUT_FORMATTER =
+            DateTimeFormatter.ofPattern("dd MMMM yyyy '['h:mma']'");
 
     /**
      * Represents a task's progress state.
