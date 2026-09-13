@@ -13,11 +13,11 @@ enum Command {
     EVENT(false, "event"),
     UNKNOWN(false);
 
-    private final boolean exactInput;
+    private final boolean isExactInput;
     private final String[] keywords;
 
     Command(boolean exactInput, String... keywords) {
-        this.exactInput = exactInput;
+        this.isExactInput = exactInput;
         this.keywords = keywords;
     }
 
@@ -39,7 +39,7 @@ enum Command {
     }
 
     private boolean matches(String userInput, String[] tokens) {
-        String input = exactInput ? userInput : tokens[0];
+        String input = isExactInput ? userInput : tokens[0];
         for (String keyword : keywords) {
             if (input.equalsIgnoreCase(keyword)) {
                 return true;

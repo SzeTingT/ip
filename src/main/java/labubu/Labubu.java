@@ -43,8 +43,10 @@ public class Labubu {
         Scanner scanner = new Scanner(System.in);
 
         Parser parser = new Parser(scanner, storage, tasks);
-        while (!parser.parse()) {
-        }
+        boolean isTerminated;
+        do {
+            isTerminated = parser.parse();
+        } while (!isTerminated);
 
         System.out.println(ui.getExit());
     }

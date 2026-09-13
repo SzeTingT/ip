@@ -12,7 +12,7 @@ import java.util.Scanner;
  * Parses user commands and applies them to Labubu's task list.
  */
 public class Parser {
-    private static final DateTimeFormatter formatter =
+    private static final DateTimeFormatter FORMATTER =
             new DateTimeFormatterBuilder()
                     .appendPattern("dd/MM/yyyy")
                     .optionalStart()
@@ -169,7 +169,7 @@ public class Parser {
             throw new InvalidTaskInputException();
         }
 
-        Task task = new Deadline(parts[0].trim(), LocalDateTime.parse(parts[1].trim(), formatter));
+        Task task = new Deadline(parts[0].trim(), LocalDateTime.parse(parts[1].trim(), FORMATTER));
         tasks.addTask(task);
         System.out.println("Added: " + task.getTaskDescription());
     }
@@ -187,8 +187,8 @@ public class Parser {
         }
 
         Task task = new Event(parts[0].trim(),
-                LocalDateTime.parse(timing[0].trim(), formatter),
-                LocalDateTime.parse(timing[1].trim(), formatter));
+                LocalDateTime.parse(timing[0].trim(), FORMATTER),
+                LocalDateTime.parse(timing[1].trim(), FORMATTER));
         tasks.addTask(task);
         System.out.println("Added: " + task.getTaskDescription());
     }

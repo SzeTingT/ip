@@ -4,7 +4,7 @@ package labubu;
  * Provides the user-facing introduction and exit messages for Labubu.
  */
 public class Ui {
-    private final String intro =
+    private static final String INTRO =
             "____________________________________________________________\n"
                     + "██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗   ██╗\n"
                     + "██║     ██╔══██╗██╔══██╗██║   ██║██╔══██╗██║   ██║\n"
@@ -20,7 +20,7 @@ public class Ui {
                     + "Enter dates in the following format: dd/MM/yyyy <optional>HH:mm</optional>  "
                     + "e.g: 06/07/2026 18:30\n";
 
-    private final String exit =
+    private static final String EXIT_MESSAGE =
             "____________________________________________________________\n"
                     + "Bye. Hope to see you again soon!\n"
                     + "____________________________________________________________\n";
@@ -31,7 +31,7 @@ public class Ui {
      * @return Introduction message.
      */
     public String getIntro() {
-        return intro;
+        return INTRO;
     }
 
     /**
@@ -40,6 +40,6 @@ public class Ui {
      * @return Exit message.
      */
     public String getExit() {
-        return exit;
+        return EXIT_MESSAGE;
     }
 }
