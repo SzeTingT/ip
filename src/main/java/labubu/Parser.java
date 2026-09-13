@@ -45,6 +45,8 @@ public class Parser {
      * @param terminateFlag Mutable flag set to true when the user exits.
      */
     public void parse(boolean[] terminateFlag) {
+        assert terminateFlag != null && terminateFlag.length > 0
+                : "Termination flag must contain at least one element";
         System.out.print("> ");
         String userInput = scanner.nextLine().trim();
 
