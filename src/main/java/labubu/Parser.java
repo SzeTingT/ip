@@ -64,79 +64,17 @@ public class Parser {
             } else if (tokens[0].equalsIgnoreCase("mark")
                     || tokens[0].equalsIgnoreCase("unmark")
                     || tokens[0].equalsIgnoreCase("delete")) {
-                if (tokens.length < 2) {
-                    throw new InvalidTaskNumberException();
-                }
-                try {
-                    int index = Integer.parseInt(tokens[1]) - 1;
-                    if (index < 0 || index >= tasks.getTaskListSize()) {
-                        throw new InvalidTaskNumberException();
-                    }
-                    if (tokens[0].equalsIgnoreCase("delete")) {
-                        Task task = tasks.removeTask(index);
-                        System.out.println("Noted. I've removed this task:");
-                        System.out.printf("  [%s][%s] %s%n", task.getMarker(),
-                                task.getStatusIndicator(), task.getTaskDescription());
-                        System.out.println("Now you have " + tasks.getTaskListSize() + " tasks in the list.");
-                    } else {
-                        tasks.getTask(index).setStatus(tokens[0].equalsIgnoreCase("mark")
-                                ? Task.Status.COMPLETED : Task.Status.INCOMPLETE);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new InvalidTaskNumberException();
-                }
+                handleTaskUpdate(tokens);
             } else if (tokens[0].equalsIgnoreCase("find")) {
-                if (tokens.length < 2) {
-                    throw new InvalidTaskInputException();
-                }
-                String keyword = String.join(" ", Arrays.copyOfRange(tokens, 1, tokens.length));
-                List<Task> matchedTasks = tasks.findTaskByKeyword(keyword);
-
-                System.out.printf("____________________________________________________________%n");
-                System.out.printf("These are the matching tasks:%n");
-                for (int i = 0; i < matchedTasks.size(); i++) {
-                    Task task = matchedTasks.get(i);
-                    System.out.printf("%d. [%s][%s] %s%n", i + 1, task.getMarker(),
-                            task.getStatusIndicator(), task.getTaskDescription());
-                }
-                System.out.printf("____________________________________________________________%n");
+                handleFind(tokens);
             } else if (userInput.equalsIgnoreCase("list")) {
-                for (int i = 0; i < tasks.getTaskListSize(); i++) {
-                    Task task = tasks.getTask(i);
-                    System.out.printf("%d. [%s][%s] %s%n", (i + 1), task.getMarker(),
-                            task.getStatusIndicator(), task.getTaskDescription());
-                }
+                printTaskList();
             } else if (tokens[0].equalsIgnoreCase("todo")) {
-                String taskTitle = userInput.substring(tokens[0].length()).trim();
-                if (taskTitle.isEmpty()) {
-                    throw new InvalidTaskInputException();
-                }
-                tasks.addTask(new ToDo(taskTitle));
-                System.out.println("Added: " + taskTitle);
+                handleToDo(userInput, tokens[0]);
             } else if (tokens[0].equalsIgnoreCase("deadline")) {
-                String[] parts = userInput.substring(tokens[0].length()).trim()
-                        .split("(?i)\\s+/by\\s+", -1);
-                if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-                    throw new InvalidTaskInputException();
-                }
-                Task task = new Deadline(parts[0].trim(), LocalDateTime.parse(parts[1].trim(), formatter));
-                tasks.addTask(task);
-                System.out.println("Added: " + task.getTaskDescription());
+                handleDeadline(userInput, tokens[0]);
             } else if (tokens[0].equalsIgnoreCase("event")) {
-                String[] parts = userInput.substring(tokens[0].length()).trim()
-                        .split("(?i)\\s+/from\\s+", -1);
-                if (parts.length != 2 || parts[0].trim().isEmpty()) {
-                    throw new InvalidTaskInputException();
-                }
-                String[] timing = parts[1].trim().split("(?i)\\s+/to\\s+", -1);
-                if (timing.length != 2 || timing[0].trim().isEmpty() || timing[1].trim().isEmpty()) {
-                    throw new InvalidTaskInputException();
-                }
-                Task task = new Event(parts[0].trim(),
-                        LocalDateTime.parse(timing[0].trim(), formatter),
-                        LocalDateTime.parse(timing[1].trim(), formatter));
-                tasks.addTask(task);
-                System.out.println("Added: " + task.getTaskDescription());
+                handleEvent(userInput, tokens[0]);
             } else { // Else, reject an unsupported command
                 throw new UnrecognisedCommandException();
             }
@@ -145,5 +83,99 @@ public class Parser {
             System.out.println(e.getMessage());
         }
         storage.saveTasks(tasks);
+    }
+
+    private void handleTaskUpdate(String[] tokens) throws InvalidTaskNumberException {
+        if (tokens.length < 2) {
+            throw new InvalidTaskNumberException();
+        }
+
+        try {
+            int index = Integer.parseInt(tokens[1]) - 1;
+            if (index < 0 || index >= tasks.getTaskListSize()) {
+                throw new InvalidTaskNumberException();
+            }
+
+            if (tokens[0].equalsIgnoreCase("delete")) {
+                Task task = tasks.removeTask(index);
+                System.out.println("Noted. I've removed this task:");
+                System.out.printf("  [%s][%s] %s%n", task.getMarker(),
+                        task.getStatusIndicator(), task.getTaskDescription());
+                System.out.println("Now you have " + tasks.getTaskListSize() + " tasks in the list.");
+            } else {
+                Task.Status status = tokens[0].equalsIgnoreCase("mark")
+                        ? Task.Status.COMPLETED : Task.Status.INCOMPLETE;
+                tasks.getTask(index).setStatus(status);
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidTaskNumberException();
+        }
+    }
+
+    private void handleFind(String[] tokens) throws InvalidTaskInputException {
+        if (tokens.length < 2) {
+            throw new InvalidTaskInputException();
+        }
+
+        String keyword = String.join(" ", Arrays.copyOfRange(tokens, 1, tokens.length));
+        List<Task> matchedTasks = tasks.findTaskByKeyword(keyword);
+
+        System.out.printf("____________________________________________________________%n");
+        System.out.printf("These are the matching tasks:%n");
+        for (int i = 0; i < matchedTasks.size(); i++) {
+            Task task = matchedTasks.get(i);
+            System.out.printf("%d. [%s][%s] %s%n", i + 1, task.getMarker(),
+                    task.getStatusIndicator(), task.getTaskDescription());
+        }
+        System.out.printf("____________________________________________________________%n");
+    }
+
+    private void printTaskList() {
+        for (int i = 0; i < tasks.getTaskListSize(); i++) {
+            Task task = tasks.getTask(i);
+            System.out.printf("%d. [%s][%s] %s%n", i + 1, task.getMarker(),
+                    task.getStatusIndicator(), task.getTaskDescription());
+        }
+    }
+
+    private void handleToDo(String userInput, String command) throws InvalidTaskInputException {
+        String taskTitle = userInput.substring(command.length()).trim();
+        if (taskTitle.isEmpty()) {
+            throw new InvalidTaskInputException();
+        }
+
+        tasks.addTask(new ToDo(taskTitle));
+        System.out.println("Added: " + taskTitle);
+    }
+
+    private void handleDeadline(String userInput, String command) throws InvalidTaskInputException {
+        String[] parts = userInput.substring(command.length()).trim()
+                .split("(?i)\\s+/by\\s+", -1);
+        if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+            throw new InvalidTaskInputException();
+        }
+
+        Task task = new Deadline(parts[0].trim(), LocalDateTime.parse(parts[1].trim(), formatter));
+        tasks.addTask(task);
+        System.out.println("Added: " + task.getTaskDescription());
+    }
+
+    private void handleEvent(String userInput, String command) throws InvalidTaskInputException {
+        String[] parts = userInput.substring(command.length()).trim()
+                .split("(?i)\\s+/from\\s+", -1);
+        if (parts.length != 2 || parts[0].trim().isEmpty()) {
+            throw new InvalidTaskInputException();
+        }
+
+        String[] timing = parts[1].trim().split("(?i)\\s+/to\\s+", -1);
+        if (timing.length != 2 || timing[0].trim().isEmpty() || timing[1].trim().isEmpty()) {
+            throw new InvalidTaskInputException();
+        }
+
+        Task task = new Event(parts[0].trim(),
+                LocalDateTime.parse(timing[0].trim(), formatter),
+                LocalDateTime.parse(timing[1].trim(), formatter));
+        tasks.addTask(task);
+        System.out.println("Added: " + task.getTaskDescription());
     }
 }
