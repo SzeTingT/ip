@@ -103,19 +103,27 @@ public class Parser {
             }
 
             if (tokens[0].equalsIgnoreCase("delete")) {
-                Task task = tasks.removeTask(index);
-                System.out.println("Noted. I've removed this task:");
-                System.out.printf("  [%s][%s] %s%n", task.getMarker(),
-                        task.getStatusIndicator(), task.getTaskDescription());
-                System.out.println("Now you have " + tasks.getTaskListSize() + " tasks in the list.");
+                handleDelete(index);
             } else {
-                Task.Status status = tokens[0].equalsIgnoreCase("mark")
-                        ? Task.Status.COMPLETED : Task.Status.INCOMPLETE;
-                tasks.getTask(index).setStatus(status);
+                updateTaskStatus(tokens[0], index);
             }
         } catch (NumberFormatException e) {
             throw new InvalidTaskNumberException();
         }
+    }
+
+    private void handleDelete(int index) {
+        Task task = tasks.removeTask(index);
+        System.out.println("Noted. I've removed this task:");
+        System.out.printf("  [%s][%s] %s%n", task.getMarker(),
+                task.getStatusIndicator(), task.getTaskDescription());
+        System.out.println("Now you have " + tasks.getTaskListSize() + " tasks in the list.");
+    }
+
+    private void updateTaskStatus(String command, int index) {
+        Task.Status status = command.equalsIgnoreCase("mark")
+                ? Task.Status.COMPLETED : Task.Status.INCOMPLETE;
+        tasks.getTask(index).setStatus(status);
     }
 
     private void handleFind(String[] tokens) throws InvalidTaskInputException {
