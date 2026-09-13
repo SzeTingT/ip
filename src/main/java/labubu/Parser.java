@@ -55,28 +55,34 @@ public class Parser {
 
             String[] tokens = userInput.split("\\s+");
 
-            if (userInput.equalsIgnoreCase("bye")
-                    || userInput.equalsIgnoreCase("exit")
-                    || userInput.equalsIgnoreCase("quit")) {
+            Command command = Command.identify(userInput, tokens);
+            switch (command) {
+            case EXIT:
                 storage.saveTasks(tasks);
                 terminateFlag[0] = true;
                 return;
-            } else if (tokens[0].equalsIgnoreCase("mark")
-                    || tokens[0].equalsIgnoreCase("unmark")
-                    || tokens[0].equalsIgnoreCase("delete")) {
+            case TASK_UPDATE:
                 handleTaskUpdate(tokens);
-            } else if (tokens[0].equalsIgnoreCase("find")) {
+                break;
+            case FIND:
                 handleFind(tokens);
-            } else if (userInput.equalsIgnoreCase("list")) {
+                break;
+            case LIST:
                 printTaskList();
-            } else if (tokens[0].equalsIgnoreCase("todo")) {
+                break;
+            case TODO:
                 handleToDo(userInput, tokens[0]);
-            } else if (tokens[0].equalsIgnoreCase("deadline")) {
+                break;
+            case DEADLINE:
                 handleDeadline(userInput, tokens[0]);
-            } else if (tokens[0].equalsIgnoreCase("event")) {
+                break;
+            case EVENT:
                 handleEvent(userInput, tokens[0]);
-            } else { // Else, reject an unsupported command
+                break;
+            case UNKNOWN:
                 throw new UnrecognisedCommandException();
+            default:
+                throw new AssertionError("Unhandled command: " + command);
             }
         } catch (InvalidTaskInputException | InvalidTaskNumberException
                  | UnrecognisedCommandException e) {
