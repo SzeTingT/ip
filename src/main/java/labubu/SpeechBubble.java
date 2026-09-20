@@ -12,17 +12,33 @@ public class SpeechBubble extends HBox {
 
     /** Creates a speech bubble for a user or Labubu message. */
     public SpeechBubble(String text, boolean fromUser) {
+        this(text, fromUser, false);
+    }
+
+    /**
+     * Creates a speech bubble and optionally styles it as an error message.
+     *
+     * @param text Message to display.
+     * @param fromUser Whether the message was sent by the user.
+     * @param isError Whether the message represents an input error.
+     */
+    public SpeechBubble(String text, boolean fromUser, boolean isError) {
         Label bubble = new Label(text == null || text.isEmpty() ? "Done." : text);
         bubble.setWrapText(true);
-        bubble.getStyleClass().add(fromUser ? "user-bubble" : "bot-bubble");
+        bubble.getStyleClass().add(isError ? "error-bubble" : fromUser ? "user-bubble" : "bot-bubble");
         getStyleClass().add(fromUser ? "user-row" : "bot-row");
-        getChildren().add(bubble);
         if (!fromUser) {
             ImageView avatar = new ImageView(new Image(getClass().getResourceAsStream(IMAGE_PATH)));
             avatar.setFitWidth(80);
             avatar.setFitHeight(80);
             avatar.setPreserveRatio(true);
             getChildren().add(0, avatar);
+        }
+        getChildren().add(bubble);
+        if (isError) {
+            Label warningIcon = new Label("⚠");
+            warningIcon.getStyleClass().add("error-icon");
+            getChildren().add(warningIcon);
         }
         setAlignment(fromUser ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
     }

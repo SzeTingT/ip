@@ -7,6 +7,10 @@ import javafx.scene.layout.VBox;
 
 /** Composes the conversation area and command input into the main window. */
 public class MainWindow extends BorderPane {
+    private static final String INVALID_DETAILS_MESSAGE = "Invalid task details.";
+    private static final String INVALID_INDEX_MESSAGE = "Invalid task index.";
+    private static final String UNKNOWN_COMMAND_MESSAGE = "Unrecognised command.";
+
     private final VBox conversation = new VBox(10);
     private final ScrollPane messages = new ScrollPane(conversation);
     private final VBox commandArea = new VBox();
@@ -30,7 +34,8 @@ public class MainWindow extends BorderPane {
         if (command.equalsIgnoreCase("help")) {
             toggleHelpPanel();
         } else {
-            addMessage(labubu.processGuiCommand(command), false);
+            String response = labubu.processGuiCommand(command);
+            addMessage(response, false, isErrorResponse(response));
             if (isExitCommand(command)) {
                 Platform.exit();
             }
@@ -38,8 +43,18 @@ public class MainWindow extends BorderPane {
     }
 
     private void addMessage(String text, boolean fromUser) {
-        conversation.getChildren().add(new SpeechBubble(text, fromUser));
+        addMessage(text, fromUser, false);
+    }
+
+    private void addMessage(String text, boolean fromUser, boolean isError) {
+        conversation.getChildren().add(new SpeechBubble(text, fromUser, isError));
         Platform.runLater(() -> messages.setVvalue(1.0));
+    }
+
+    private boolean isErrorResponse(String response) {
+        return INVALID_DETAILS_MESSAGE.equals(response)
+                || INVALID_INDEX_MESSAGE.equals(response)
+                || UNKNOWN_COMMAND_MESSAGE.equals(response);
     }
 
     private boolean isExitCommand(String command) {
