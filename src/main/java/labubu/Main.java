@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 
 /** Starts the Labubu JavaFX application. */
 public class Main extends Application {
+    private static final double MIN_WINDOW_HEIGHT = 500;
+
     /** Displays the reusable main window component. */
     @Override
     public void start(Stage stage) {
@@ -18,7 +20,7 @@ public class Main extends Application {
                 "/css/help-panel.css");
         stage.setTitle("Labubu - Task Tracker");
         stage.setScene(scene);
-        stage.setMinHeight(220);
+        stage.setMinHeight(MIN_WINDOW_HEIGHT);
         stage.setMinWidth(417);
         stage.show();
     }

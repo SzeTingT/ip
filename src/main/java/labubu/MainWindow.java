@@ -1,5 +1,6 @@
 package labubu;
 
+import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -18,7 +19,6 @@ public class MainWindow extends BorderPane {
         this.labubu = labubu;
         conversation.getStyleClass().add("conversation");
         messages.setFitToWidth(true);
-        messages.vvalueProperty().bind(conversation.heightProperty());
         setCenter(messages);
         commandArea.getChildren().add(inputField);
         setBottom(commandArea);
@@ -31,11 +31,21 @@ public class MainWindow extends BorderPane {
             toggleHelpPanel();
         } else {
             addMessage(labubu.processGuiCommand(command), false);
+            if (isExitCommand(command)) {
+                Platform.exit();
+            }
         }
     }
 
     private void addMessage(String text, boolean fromUser) {
         conversation.getChildren().add(new SpeechBubble(text, fromUser));
+        Platform.runLater(() -> messages.setVvalue(1.0));
+    }
+
+    private boolean isExitCommand(String command) {
+        return command.equalsIgnoreCase("bye")
+                || command.equalsIgnoreCase("quit")
+                || command.equalsIgnoreCase("exit");
     }
 
     private void toggleHelpPanel() {
