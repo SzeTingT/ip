@@ -3,6 +3,8 @@ package labubu;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
@@ -14,13 +16,14 @@ import java.util.Scanner;
 public class Parser {
     private static final DateTimeFormatter FORMATTER =
             new DateTimeFormatterBuilder()
-                    .appendPattern("dd/MM/yyyy")
+                    .appendPattern("dd/MM/uuuu")
                     .optionalStart()
                     .appendPattern(" HH:mm")
                     .optionalEnd()
                     .parseDefaulting(ChronoField.HOUR_OF_DAY, 23)
                     .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 59)
-                    .toFormatter(); // Custom date time formatter
+                    .toFormatter()
+                    .withResolverStyle(ResolverStyle.STRICT); // Custom date time formatter
 
     private final Scanner scanner;
     private final Storage storage;
@@ -57,36 +60,37 @@ public class Parser {
 
             Command command = Command.identify(userInput, tokens);
             switch (command) {
-            case EXIT:
-                storage.saveTasks(tasks);
-                return true;
-            case TASK_UPDATE:
-                handleTaskUpdate(tokens);
-                break;
-            case FIND:
-                handleFind(tokens);
-                break;
-            case LIST:
-                printTaskList();
-                break;
-            case TODO:
-                handleToDo(userInput, tokens[0]);
-                break;
-            case DEADLINE:
-                handleDeadline(userInput, tokens[0]);
-                break;
-            case EVENT:
-                handleEvent(userInput, tokens[0]);
-                break;
-            case HELP:
-                System.out.println(new Ui().getHelp());
-                break;
-            case UNKNOWN:
-                throw new UnrecognisedCommandException();
-            default:
-                throw new AssertionError("Unhandled command: " + command);
+                case EXIT:
+                    storage.saveTasks(tasks);
+                    return true;
+                case TASK_UPDATE:
+                    handleTaskUpdate(tokens);
+                    break;
+                case FIND:
+                    handleFind(tokens);
+                    break;
+                case LIST:
+                    printTaskList();
+                    break;
+                case TODO:
+                    handleToDo(userInput, tokens[0]);
+                    break;
+                case DEADLINE:
+                    handleDeadline(userInput, tokens[0]);
+                    break;
+                case EVENT:
+                    handleEvent(userInput, tokens[0]);
+                    break;
+                case HELP:
+                    System.out.println(new Ui().getHelp());
+                    break;
+                case UNKNOWN:
+                    throw new UnrecognisedCommandException();
+                default:
+                    throw new AssertionError("Unhandled command: " + command);
             }
         } catch (InvalidTaskInputException | InvalidTaskNumberException
+                 | InvalidDateTimeException | InvalidTaskTimeRangeException
                  | UnrecognisedCommandException e) {
             System.out.println(e.getMessage());
         }
@@ -165,19 +169,22 @@ public class Parser {
         System.out.println("Got it! Added: " + taskTitle);
     }
 
-    private void handleDeadline(String userInput, String command) throws InvalidTaskInputException {
+    private void handleDeadline(String userInput, String command)
+            throws InvalidTaskInputException, InvalidDateTimeException {
         String[] parts = userInput.substring(command.length()).trim()
                 .split("(?i)\\s+/by\\s+", -1);
         if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
             throw new InvalidTaskInputException();
         }
 
-        Task task = new Deadline(parts[0].trim(), LocalDateTime.parse(parts[1].trim(), FORMATTER));
+        Task task = new Deadline(parts[0].trim(), parseDateTime(parts[1].trim()));
         tasks.addTask(task);
         System.out.println("Got it! Added: " + task.getTaskDescription());
     }
 
-    private void handleEvent(String userInput, String command) throws InvalidTaskInputException {
+    private void handleEvent(String userInput, String command)
+            throws InvalidTaskInputException, InvalidDateTimeException,
+            InvalidTaskTimeRangeException {
         String[] parts = userInput.substring(command.length()).trim()
                 .split("(?i)\\s+/from\\s+", -1);
         if (parts.length != 2 || parts[0].trim().isEmpty()) {
@@ -189,10 +196,22 @@ public class Parser {
             throw new InvalidTaskInputException();
         }
 
-        Task task = new Event(parts[0].trim(),
-                LocalDateTime.parse(timing[0].trim(), FORMATTER),
-                LocalDateTime.parse(timing[1].trim(), FORMATTER));
+        LocalDateTime from = parseDateTime(timing[0].trim());
+        LocalDateTime to = parseDateTime(timing[1].trim());
+        if (!from.isBefore(to)) {
+            throw new InvalidTaskTimeRangeException();
+        }
+
+        Task task = new Event(parts[0].trim(), from, to);
         tasks.addTask(task);
         System.out.println("Got it! Added: " + task.getTaskDescription());
+    }
+
+    private LocalDateTime parseDateTime(String dateTime) throws InvalidDateTimeException {
+        try {
+            return LocalDateTime.parse(dateTime, FORMATTER);
+        } catch (DateTimeParseException exception) {
+            throw new InvalidDateTimeException();
+        }
     }
 }
