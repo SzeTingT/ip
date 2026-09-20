@@ -32,7 +32,10 @@ public class Storage {
         List<String> lines = taskList.toSaveFormat();
 
         try {
-            Files.createDirectories(filePath.getParent());
+            Path parentDirectory = filePath.getParent();
+            if (parentDirectory != null) {
+                Files.createDirectories(parentDirectory);
+            }
             Files.write(filePath, lines, StandardCharsets.UTF_8);
         } catch (IOException exception) {
             System.out.println("Oops! Unable to save tasks.");
@@ -76,10 +79,12 @@ public class Storage {
 
     private Task loadTask(String line) throws IOException {
         String[] parts = line.split("\\|", -1);
-        Task.Status status = parseStatus(parts[1]);
+        Task.Status status;
         Task task;
 
         try {
+            validateParts(parts);
+            status = parseStatus(parts[1]);
             switch (parts[0]) {
                 case "T":
                     task = new ToDo(parts[2]);
@@ -101,10 +106,38 @@ public class Storage {
         } catch (DateTimeParseException e) {
             Files.deleteIfExists(filePath);
             throw new IllegalArgumentException("Invalid date/time format. Resetting save file.", e);
+        } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+            Files.deleteIfExists(filePath);
+            String message = e.getMessage();
+            if (message == null || !message.startsWith("Unknown task marker")) {
+                message = "Malformed save file. Resetting save file.";
+            }
+            throw new IllegalArgumentException(message, e);
         }
 
         task.setStatus(status);
         return task;
+    }
+
+    private void validateParts(String[] parts) {
+        int expectedPartCount;
+        switch (parts[0]) {
+            case "T":
+                expectedPartCount = 3;
+                break;
+            case "D":
+                expectedPartCount = 4;
+                break;
+            case "E":
+                expectedPartCount = 5;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown task marker. Resetting save file.");
+        }
+
+        if (parts.length != expectedPartCount) {
+            throw new IllegalArgumentException("Malformed save file. Resetting save file.");
+        }
     }
 
     private Task.Status parseStatus(String status) {

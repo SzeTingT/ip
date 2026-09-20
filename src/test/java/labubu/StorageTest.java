@@ -78,6 +78,18 @@ public class StorageTest {
         assertThrows(IllegalArgumentException.class, storage::loadTasks);
     }
 
+    @Test
+    public void deletesSaveFileWhenRecordHasMissingFields() throws Exception {
+        Path savePath = writeSaveFile("E|INCOMPLETE|meeting|2026-07-06T14:00");
+        Storage storage = new Storage(savePath.toString());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                storage::loadTasks);
+
+        assertEquals("Malformed save file. Resetting save file.", exception.getMessage());
+        assertTrue(Files.notExists(savePath));
+    }
+
     private Path writeSaveFile(String content) throws Exception {
         Path savePath = temporaryDirectory.resolve("tasks.txt");
         Files.writeString(savePath, content, StandardCharsets.UTF_8);
