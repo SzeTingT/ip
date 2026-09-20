@@ -16,7 +16,7 @@ public class SpeechBubble extends HBox {
     }
 
     /**
-     * Creates a speech bubble and optionally styles it as an error message.
+     * Creates a speech bubble with optional error styling.
      *
      * @param text Message to display.
      * @param fromUser Whether the message was sent by the user.
@@ -25,7 +25,10 @@ public class SpeechBubble extends HBox {
     public SpeechBubble(String text, boolean fromUser, boolean isError) {
         Label bubble = new Label(text == null || text.isEmpty() ? "Done." : text);
         bubble.setWrapText(true);
-        bubble.getStyleClass().add(isError ? "error-bubble" : fromUser ? "user-bubble" : "bot-bubble");
+        bubble.getStyleClass().add(fromUser ? "user-bubble" : "bot-bubble");
+        if (isError) {
+            bubble.getStyleClass().add("error-bubble");
+        }
         getStyleClass().add(fromUser ? "user-row" : "bot-row");
         if (!fromUser) {
             ImageView avatar = new ImageView(new Image(getClass().getResourceAsStream(IMAGE_PATH)));

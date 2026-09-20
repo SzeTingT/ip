@@ -8,6 +8,6 @@ public class InvalidTaskNumberException extends Exception {
      * Creates an exception with the message shown for invalid task numbers.
      */
     public InvalidTaskNumberException() {
-        super("Invalid task index.");
+        super("Oops! Invalid task index.");
     }
 }

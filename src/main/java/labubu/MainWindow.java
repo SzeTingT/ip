@@ -7,9 +7,9 @@ import javafx.scene.layout.VBox;
 
 /** Composes the conversation area and command input into the main window. */
 public class MainWindow extends BorderPane {
-    private static final String INVALID_DETAILS_MESSAGE = "Invalid task details.";
-    private static final String INVALID_INDEX_MESSAGE = "Invalid task index.";
-    private static final String UNKNOWN_COMMAND_MESSAGE = "Unrecognised command.";
+    private static final String INVALID_DETAILS_MESSAGE = "Oops! Invalid task details.";
+    private static final String INVALID_INDEX_MESSAGE = "Oops! Invalid task index.";
+    private static final String UNKNOWN_COMMAND_MESSAGE = "Hmm, I don't recognise that command.";
 
     private final VBox conversation = new VBox(10);
     private final ScrollPane messages = new ScrollPane(conversation);

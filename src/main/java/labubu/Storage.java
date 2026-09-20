@@ -35,7 +35,7 @@ public class Storage {
             Files.createDirectories(filePath.getParent());
             Files.write(filePath, lines, StandardCharsets.UTF_8);
         } catch (IOException exception) {
-            System.out.println("Unable to save tasks.");
+            System.out.println("Oops! Unable to save tasks.");
         }
     }
 
@@ -48,7 +48,7 @@ public class Storage {
      */
     public List<Task> loadTasks() throws IOException, IllegalArgumentException {
         if (Files.notExists(filePath)) { // If save file doesn't exist
-            System.out.println("Save file not found. Starting with an empty task list.");
+            System.out.println("Hmm, save file not found. Starting with an empty task list.");
             return new ArrayList<>();
         }
 
@@ -57,7 +57,7 @@ public class Storage {
         try { // If save file cannot be read
             lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
         } catch (IOException exception) {
-            System.out.println("Unable to load the save file. Starting with an empty task list.");
+            System.out.println("Oops! Unable to load the save file. Starting with an empty task list.");
             return new ArrayList<>();
         }
 
@@ -68,7 +68,7 @@ public class Storage {
         }
 
         if (!tasks.isEmpty()) {
-            System.out.println("Successfully loaded save file.");
+            System.out.println("Got it! Save file loaded.");
         }
 
         return tasks;
