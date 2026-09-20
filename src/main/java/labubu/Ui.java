@@ -9,8 +9,8 @@ public class Ui {
                     + "Tasks available: \n"
                     + "To-do: todo [task-title] \n"
                     + "Deadline: deadline [task-title] /by [date-time] \n"
-                    + "Event: event [task-title] /from [date-time] /to [date-time] \n"
-                    + "Help: help\n\n"
+                    + "Event: event [task-title] /from [date-time] /to [date-time] \n\n"
+                    + "Toggle help menu with 'help' to see more commands.\n\n"
                     + "Enter dates in the following format: dd/MM/yyyy <optional>HH:mm</optional>  "
                     + "e.g: 06/07/2026 18:30\n";
 
@@ -21,8 +21,10 @@ public class Ui {
 
     private static final String HELP_MESSAGE =
             "Hello! I'm Labubu, your personal task-tracking bot.\n\n"
-                    + "Here are the commands you can use:\n\n"
+                    + "Here are the commands you can use:\n"
+                    + "______________________________________________________\n"
                     + "ADD TASKS\n"
+                    + "______________________________________________________\n"
                     + "  todo [task title]\n"
                     + "  Adds a task without a date or time.\n\n"
                     + "  deadline [task title] /by [date and time]\n"
@@ -36,7 +38,9 @@ public class Ui {
                     + "  todo read book\n"
                     + "  deadline return book /by 06/07/2026\n"
                     + "  event team meeting /from 06/07/2026 14:00 /to 06/07/2026 15:00\n\n"
+                    + "______________________________________________________\n"
                     + "MANAGE TASKS\n"
+                    + "______________________________________________________\n"
                     + "  list\n"
                     + "  Displays all tasks.\n\n"
                     + "  find [keyword]\n"
@@ -47,16 +51,17 @@ public class Ui {
                     + "  Marks a task as incomplete.\n\n"
                     + "  delete [task number]\n"
                     + "  Deletes a task.\n\n"
+                    + "______________________________________________________\n"
                     + "OTHER\n"
+                    + "______________________________________________________\n"
                     + "  help\n"
-                    + "  Opens this help guide.\n\n"
+                    + "  Opens/closes this help guide.\n\n"
                     + "  bye\n"
                     + "  exit\n"
                     + "  quit\n"
                     + "  Saves your tasks and closes Labubu.\n\n"
                     + "Task status indicators:\n"
                     + "  [ ] Incomplete\n"
-                    + "  [-] In progress\n"
                     + "  [X] Completed\n\n"
                     + "Task numbers are based on their position in the task list.";
 
