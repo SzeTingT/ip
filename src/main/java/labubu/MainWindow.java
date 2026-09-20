@@ -8,6 +8,8 @@ import javafx.scene.layout.VBox;
 public class MainWindow extends BorderPane {
     private final VBox conversation = new VBox(10);
     private final ScrollPane messages = new ScrollPane(conversation);
+    private final VBox commandArea = new VBox();
+    private final InputField inputField = new InputField(this::handleCommand);
     private final Labubu labubu;
     private HelpPanel helpPanel;
 
@@ -18,14 +20,15 @@ public class MainWindow extends BorderPane {
         messages.setFitToWidth(true);
         messages.vvalueProperty().bind(conversation.heightProperty());
         setCenter(messages);
-        setBottom(new InputField(this::handleCommand));
+        commandArea.getChildren().add(inputField);
+        setBottom(commandArea);
         addMessage(new Ui().getIntro(), false);
     }
 
     private void handleCommand(String command) {
         addMessage(command, true);
         if (command.equalsIgnoreCase("help")) {
-            showHelpPanel();
+            toggleHelpPanel();
         } else {
             addMessage(labubu.processGuiCommand(command), false);
         }
@@ -35,17 +38,18 @@ public class MainWindow extends BorderPane {
         conversation.getChildren().add(new SpeechBubble(text, fromUser));
     }
 
-    private void showHelpPanel() {
-        if (helpPanel != null) {
-            return;
+    private void toggleHelpPanel() {
+        if (helpPanel == null) {
+            helpPanel = new HelpPanel(new Ui().getHelp(), this::hideHelpPanel);
+            helpPanel.prefWidthProperty().bind(commandArea.widthProperty());
+            commandArea.getChildren().add(0, helpPanel);
+        } else {
+            hideHelpPanel();
         }
-
-        helpPanel = new HelpPanel(new Ui().getHelp(), this::hideHelpPanel);
-        conversation.getChildren().add(helpPanel);
     }
 
     private void hideHelpPanel() {
-        conversation.getChildren().remove(helpPanel);
+        commandArea.getChildren().remove(helpPanel);
         helpPanel = null;
     }
 }

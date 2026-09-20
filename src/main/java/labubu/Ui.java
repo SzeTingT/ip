@@ -5,14 +5,7 @@ package labubu;
  */
 public class Ui {
     private static final String INTRO =
-            "____________________________________________________________\n"
-                    + "██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗   ██╗\n"
-                    + "██║     ██╔══██╗██╔══██╗██║   ██║██╔══██╗██║   ██║\n"
-                    + "██║     ███████║██████╔╝██║   ██║██████╔╝██║   ██║\n"
-                    + "██║     ██╔══██║██╔══██╗██║   ██║██╔══██╗██║   ██║\n"
-                    + "███████╗██║  ██║██████╔╝╚██████╔╝██████╔╝╚██████╔╝\n"
-                    + "╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ \n"
-                    + "Hello! I'm Labubu. A task tracker bot.\n\n"
+            "Hello! I'm Labubu. A task tracker bot.\n\n"
                     + "Tasks available: \n"
                     + "To-do: todo [task-title] \n"
                     + "Deadline: deadline [task-title] /by [date-time] \n"
