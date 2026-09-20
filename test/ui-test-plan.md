@@ -50,6 +50,8 @@ deadline return book
 deadline return book /by
 event project meeting /from Mon 2pm
 event project meeting /to 4pm
+deadline return book /by 31/02/2026
+event project meeting /from 07/07/2026 /to 06/07/2026
 mark
 mark 1
 mark abc
@@ -74,6 +76,8 @@ What can I do for you?
 > Oops! Invalid task details.
 > Oops! Invalid task details.
 > Oops! Invalid task details.
+> Oops! Invalid date/time. Use dd/MM/yyyy or dd/MM/yyyy HH:mm.
+> Oops! An event must start before it ends.
 > Oops! Invalid task index.
 > Oops! Invalid task index.
 > Oops! Invalid task index.

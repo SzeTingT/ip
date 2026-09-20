@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 public class MainWindow extends BorderPane {
     private static final String INVALID_DETAILS_MESSAGE = "Oops! Invalid task details.";
     private static final String INVALID_INDEX_MESSAGE = "Oops! Invalid task index.";
+    private static final String INVALID_DATE_TIME_MESSAGE =
+            "Oops! Invalid date/time. Use dd/MM/yyyy or dd/MM/yyyy HH:mm.";
+    private static final String INVALID_TIME_RANGE_MESSAGE = "Oops! An event must start before it ends.";
     private static final String UNKNOWN_COMMAND_MESSAGE = "Hmm, I don't recognise that command.";
 
     private final VBox conversation = new VBox(10);
@@ -54,6 +57,8 @@ public class MainWindow extends BorderPane {
     private boolean isErrorResponse(String response) {
         return INVALID_DETAILS_MESSAGE.equals(response)
                 || INVALID_INDEX_MESSAGE.equals(response)
+                || INVALID_DATE_TIME_MESSAGE.equals(response)
+                || INVALID_TIME_RANGE_MESSAGE.equals(response)
                 || UNKNOWN_COMMAND_MESSAGE.equals(response);
     }
 
