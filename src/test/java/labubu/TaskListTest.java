@@ -15,7 +15,7 @@ public class TaskListTest {
 
         taskList.addTask(todo);
 
-        assertEquals(new ArrayList<>(List.of("T| |task")), taskList.toSaveFormat());
+        assertEquals(new ArrayList<>(List.of("T|INCOMPLETE|task")), taskList.toSaveFormat());
     }
 
     @Test
@@ -27,5 +27,17 @@ public class TaskListTest {
         taskList.removeTask(0);
 
         assertEquals(new ArrayList<>(), taskList.toSaveFormat());
+    }
+
+    @Test
+    public void testFindAndGet() {
+        TaskList taskList = new TaskList(List.of(new ToDo("read book"), new ToDo("write report")));
+
+        assertEquals(2, taskList.getTaskListSize());
+        assertEquals("read book", taskList.getTask(0).getTaskTitle());
+        assertEquals(List.of("read book"),
+                taskList.findTaskByKeyword("book").stream()
+                        .map(Task::getTaskTitle)
+                        .toList());
     }
 }
