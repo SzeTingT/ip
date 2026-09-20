@@ -28,14 +28,14 @@ ____________________________________________________________
 Hello! I'm Labubu.
 What can I do for you?
 
-> Added: borrow book
-> Added: return book (by: Sunday)
-> Added: project meeting (from: Mon 2pm, to: 4pm)
+> Got it! Added: borrow book
+> Got it! Added: return book (by: Sunday)
+> Got it! Added: project meeting (from: Mon 2pm, to: 4pm)
 > > 1.[T][ ] borrow book
 2.[D][X] return book (by: Sunday)
 3.[E][ ] project meeting (from: Mon 2pm, to: 4pm)
 > ____________________________________________________________
-Bye. Hope to see you again soon!
+Bye! Hope to see you again soon!
 ____________________________________________________________
 ```
 
@@ -69,17 +69,17 @@ ____________________________________________________________
 Hello! I'm Labubu.
 What can I do for you?
 
-> Invalid task details.
-> Invalid task details.
-> Invalid task details.
-> Invalid task details.
-> Invalid task details.
-> Invalid task index.
-> Invalid task index.
-> Invalid task index.
-> Unrecognised command.
+> Oops! Invalid task details.
+> Oops! Invalid task details.
+> Oops! Invalid task details.
+> Oops! Invalid task details.
+> Oops! Invalid task details.
+> Oops! Invalid task index.
+> Oops! Invalid task index.
+> Oops! Invalid task index.
+> Hmm, I don't recognise that command.
 > ____________________________________________________________
-Bye. Hope to see you again soon!
+Bye! Hope to see you again soon!
 ____________________________________________________________
 ```
 
@@ -111,19 +111,19 @@ ____________________________________________________________
 Hello! I'm Labubu.
 What can I do for you?
 
-> Added: first task
-> Added: second task (by: Friday)
-> Added: project meeting (from: Aug 6th 2pm, to: 4pm)
-> Noted. I've removed this task:
+> Got it! Added: first task
+> Got it! Added: second task (by: Friday)
+> Got it! Added: project meeting (from: Aug 6th 2pm, to: 4pm)
+> Hehe, deleted this task:
   [E][ ] project meeting (from: Aug 6th 2pm, to: 4pm)
-Now you have 2 tasks in the list.
+You have 2 tasks in the list.
 > 1.[T][ ] first task
 2.[D][ ] second task (by: Friday)
-> Invalid task index.
+> Oops! Invalid task index.
 > 1.[T][ ] first task
 2.[D][ ] second task (by: Friday)
 > ____________________________________________________________
-Bye. Hope to see you again soon!
+Bye! Hope to see you again soon!
 ____________________________________________________________
 ```
 
@@ -210,6 +210,6 @@ Task status indicators:
 
 Task numbers are based on their position in the task list.
 > ____________________________________________________________
-Bye. Hope to see you again soon!
+Bye! Hope to see you again soon!
 ____________________________________________________________
 ```

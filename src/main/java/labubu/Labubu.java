@@ -27,7 +27,7 @@ public class Labubu {
         try {
             loadedTasks = new TaskList(storage.loadTasks());
         } catch (IOException | IllegalArgumentException e) {
-            System.out.printf("Save file corrupted or not found. Creating new save...");
+            System.out.printf("Oops! Save file corrupted or not found. Creating new save...");
             loadedTasks = new TaskList();
         }
         tasks = loadedTasks;

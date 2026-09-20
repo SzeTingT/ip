@@ -16,7 +16,7 @@ public class Ui {
 
     private static final String EXIT_MESSAGE =
             "____________________________________________________________\n"
-                    + "Bye. Hope to see you again soon!\n"
+                    + "Bye! Hope to see you again soon!\n"
                     + "____________________________________________________________\n";
 
     private static final String HELP_MESSAGE =

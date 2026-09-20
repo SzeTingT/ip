@@ -8,6 +8,6 @@ public class UnrecognisedCommandException extends Exception {
      * Creates an exception with the message shown for unknown commands.
      */
     public UnrecognisedCommandException() {
-        super("Unrecognised command.");
+        super("Hmm, I don't recognise that command.");
     }
 }

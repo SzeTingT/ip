@@ -117,10 +117,10 @@ public class Parser {
 
     private void handleDelete(int index) {
         Task task = tasks.removeTask(index);
-        System.out.println("Noted. I've removed this task:");
+        System.out.println("Hehe, deleted this task:");
         System.out.printf("  [%s][%s] %s%n", task.getMarker(),
                 task.getStatusIndicator(), task.getTaskDescription());
-        System.out.println("Now you have " + tasks.getTaskListSize() + " tasks in the list.");
+        System.out.println("You have " + tasks.getTaskListSize() + " tasks in the list.");
     }
 
     private void updateTaskStatus(String command, int index) {
@@ -138,7 +138,7 @@ public class Parser {
         List<Task> matchedTasks = tasks.findTaskByKeyword(keyword);
 
         System.out.printf("____________________________________________________________%n");
-        System.out.printf("These are the matching tasks:%n");
+        System.out.printf("Hmm, these are the matching tasks:%n");
         for (int i = 0; i < matchedTasks.size(); i++) {
             Task task = matchedTasks.get(i);
             System.out.printf("%d. [%s][%s] %s%n", i + 1, task.getMarker(),
@@ -162,7 +162,7 @@ public class Parser {
         }
 
         tasks.addTask(new ToDo(taskTitle));
-        System.out.println("Added: " + taskTitle);
+        System.out.println("Got it! Added: " + taskTitle);
     }
 
     private void handleDeadline(String userInput, String command) throws InvalidTaskInputException {
@@ -174,7 +174,7 @@ public class Parser {
 
         Task task = new Deadline(parts[0].trim(), LocalDateTime.parse(parts[1].trim(), FORMATTER));
         tasks.addTask(task);
-        System.out.println("Added: " + task.getTaskDescription());
+        System.out.println("Got it! Added: " + task.getTaskDescription());
     }
 
     private void handleEvent(String userInput, String command) throws InvalidTaskInputException {
@@ -193,6 +193,6 @@ public class Parser {
                 LocalDateTime.parse(timing[0].trim(), FORMATTER),
                 LocalDateTime.parse(timing[1].trim(), FORMATTER));
         tasks.addTask(task);
-        System.out.println("Added: " + task.getTaskDescription());
+        System.out.println("Got it! Added: " + task.getTaskDescription());
     }
 }
