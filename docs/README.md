@@ -9,14 +9,13 @@ Labubu is a friendly task-tracking chatbot. Use the chat window to add, find, up
 ### Prerequisites
 
 - JDK 25
-- IntelliJ IDEA or a terminal with Gradle support
 
 ### Launch the application
 
 From the project root, run:
 
 ```powershell
-.\gradlew.bat run
+java -jar "labubu.jar"
 ```
 
 Type a command in the input field and press **Enter** or click **Send**.
