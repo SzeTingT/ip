@@ -16,6 +16,6 @@ public class ToDoTest {
     public void testSaveFormat() {
         ToDo todo = new ToDo("task");
         todo.setStatus(Task.Status.COMPLETED);
-        assertEquals("T|X|task", todo.toSaveFormat());
+        assertEquals("T|COMPLETED|task", todo.toSaveFormat());
     }
 }
