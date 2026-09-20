@@ -1,13 +1,20 @@
 package labubu;
 
+import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 /** Composes the conversation area and command input into the main window. */
 public class MainWindow extends BorderPane {
+    private static final String INVALID_DETAILS_MESSAGE = "Invalid task details.";
+    private static final String INVALID_INDEX_MESSAGE = "Invalid task index.";
+    private static final String UNKNOWN_COMMAND_MESSAGE = "Unrecognised command.";
+
     private final VBox conversation = new VBox(10);
     private final ScrollPane messages = new ScrollPane(conversation);
+    private final VBox commandArea = new VBox();
+    private final InputField inputField = new InputField(this::handleCommand);
     private final Labubu labubu;
     private HelpPanel helpPanel;
 
@@ -16,36 +23,58 @@ public class MainWindow extends BorderPane {
         this.labubu = labubu;
         conversation.getStyleClass().add("conversation");
         messages.setFitToWidth(true);
-        messages.vvalueProperty().bind(conversation.heightProperty());
         setCenter(messages);
-        setBottom(new InputField(this::handleCommand));
+        commandArea.getChildren().add(inputField);
+        setBottom(commandArea);
         addMessage(new Ui().getIntro(), false);
     }
 
     private void handleCommand(String command) {
         addMessage(command, true);
         if (command.equalsIgnoreCase("help")) {
-            showHelpPanel();
+            toggleHelpPanel();
         } else {
-            addMessage(labubu.processGuiCommand(command), false);
+            String response = labubu.processGuiCommand(command);
+            addMessage(response, false, isErrorResponse(response));
+            if (isExitCommand(command)) {
+                Platform.exit();
+            }
         }
     }
 
     private void addMessage(String text, boolean fromUser) {
-        conversation.getChildren().add(new SpeechBubble(text, fromUser));
+        addMessage(text, fromUser, false);
     }
 
-    private void showHelpPanel() {
-        if (helpPanel != null) {
-            return;
-        }
+    private void addMessage(String text, boolean fromUser, boolean isError) {
+        conversation.getChildren().add(new SpeechBubble(text, fromUser, isError));
+        Platform.runLater(() -> messages.setVvalue(1.0));
+    }
 
-        helpPanel = new HelpPanel(new Ui().getHelp(), this::hideHelpPanel);
-        conversation.getChildren().add(helpPanel);
+    private boolean isErrorResponse(String response) {
+        return INVALID_DETAILS_MESSAGE.equals(response)
+                || INVALID_INDEX_MESSAGE.equals(response)
+                || UNKNOWN_COMMAND_MESSAGE.equals(response);
+    }
+
+    private boolean isExitCommand(String command) {
+        return command.equalsIgnoreCase("bye")
+                || command.equalsIgnoreCase("quit")
+                || command.equalsIgnoreCase("exit");
+    }
+
+    private void toggleHelpPanel() {
+        if (helpPanel == null) {
+            helpPanel = new HelpPanel(new Ui().getHelp(), this::hideHelpPanel);
+            helpPanel.prefWidthProperty().bind(commandArea.widthProperty());
+            commandArea.getChildren().add(0, helpPanel);
+        } else {
+            hideHelpPanel();
+        }
     }
 
     private void hideHelpPanel() {
-        conversation.getChildren().remove(helpPanel);
+        commandArea.getChildren().remove(helpPanel);
         helpPanel = null;
     }
 }
