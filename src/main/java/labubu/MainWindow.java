@@ -26,6 +26,7 @@ public class MainWindow extends BorderPane {
         this.labubu = labubu;
         conversation.getStyleClass().add("conversation");
         messages.setFitToWidth(true);
+        conversation.heightProperty().addListener((observable, oldHeight, newHeight) -> scrollToLatest());
         setCenter(messages);
         commandArea.getChildren().add(inputField);
         setBottom(commandArea);
@@ -51,7 +52,11 @@ public class MainWindow extends BorderPane {
 
     private void addMessage(String text, boolean fromUser, boolean isError) {
         conversation.getChildren().add(new SpeechBubble(text, fromUser, isError));
-        Platform.runLater(() -> messages.setVvalue(1.0));
+        scrollToLatest();
+    }
+
+    private void scrollToLatest() {
+        Platform.runLater(() -> messages.setVvalue(messages.getVmax()));
     }
 
     private boolean isErrorResponse(String response) {

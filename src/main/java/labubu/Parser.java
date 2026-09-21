@@ -131,6 +131,7 @@ public class Parser {
         Task.Status status = command.equalsIgnoreCase("mark")
                 ? Task.Status.COMPLETED : Task.Status.INCOMPLETE;
         tasks.getTask(index).setStatus(status);
+        System.out.println("All done!");
     }
 
     private void handleFind(String[] tokens) throws InvalidTaskInputException {
@@ -152,6 +153,11 @@ public class Parser {
     }
 
     private void printTaskList() {
+        if (tasks.getTaskListSize() == 0) {
+            System.out.println("Hmm, your task list is empty.");
+            return;
+        }
+
         for (int i = 0; i < tasks.getTaskListSize(); i++) {
             Task task = tasks.getTask(i);
             System.out.printf("%d. [%s][%s] %s%n", i + 1, task.getMarker(),

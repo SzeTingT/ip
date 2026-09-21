@@ -78,9 +78,10 @@ public class ParserTest {
     public void continuesAfterNonTerminatingCommand() {
         Parser parser = parserFor("list\n");
 
-        boolean isTerminated = parser.parse();
+        String output = captureOutput(parser::parse);
 
-        assertFalse(isTerminated);
+        assertFalse(output.isEmpty());
+        assertTrue(output.contains("Hmm, your task list is empty."));
     }
 
     @Test

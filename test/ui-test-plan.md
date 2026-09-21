@@ -31,7 +31,8 @@ What can I do for you?
 > Got it! Added: borrow book
 > Got it! Added: return book (by: Sunday)
 > Got it! Added: project meeting (from: Mon 2pm, to: 4pm)
-> > 1.[T][ ] borrow book
+> All done!
+> 1.[T][ ] borrow book
 2.[D][X] return book (by: Sunday)
 3.[E][ ] project meeting (from: Mon 2pm, to: 4pm)
 > ____________________________________________________________
